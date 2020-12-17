@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,700;1,300&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #212122;
+  width: 100%;
+  max-width: 2500px;
+  margin: 0 auto;
+  font-family: "Roboto", sans-serif;
+}
+
+.header {
+  background: #5a5b5d;
+  height: 8vh;
+}
+.footer {
+  background: #5a5b5d;
+  height: 5vh;
+}
+
+.main {
+  display: grid;
+  height: 87vh;
+  grid-template-columns: 1fr 3fr 2fr;
+  grid-template-rows: 0.3fr 1fr 1.3fr;
+  grid-template-areas:
+    "info info table"
+    "list map table"
+    "list map chart";
+  grid-gap: 0.5rem;
+}
+
+.section {
+  background: #5a5b5d;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.container_info {
+  background: #a7ffbb;
+  grid-area: info;
+}
+
+.container_table {
+  background: #a7cdff;
+  grid-area: table;
+}
+
+.container_list {
+  background: #dca7ff;
+  grid-area: list;
+}
+
+.container_map {
+  background: #ffa7f3;
+  grid-area: map;
+}
+
+.container_chart {
+  background: #ffe5a7;
+  grid-area: chart;
+}
+
+@media only screen and (max-width: 800px) {
+  .main {
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr 1fr 1fr 2.3fr;
+    grid-template-areas:
+      "info map"
+      "list map"
+      "list map"
+      "chart table";
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .main {
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.5fr 3fr 3fr 4.5fr 2fr;
+    grid-template-areas:
+      "info"
+      "table"
+      "list"
+      "map"
+      "chart";
+  }
+}
