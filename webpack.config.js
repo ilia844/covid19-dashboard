@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+// const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ESLintWebpackPlugin = require('eslint-webpack-plugin');
 const webpack = require('webpack');
@@ -51,7 +51,7 @@ module.exports = {
   context: path.resolve(__dirname, 'src'),
   mode: 'development',
   entry: {
-    main: ['@babel/polyfill', '/index.js'],
+    main: ['@babel/polyfill', './js/index.js'],
   },
   output: {
     filename: devMode ? '[name].bundle.js' : '[name].bundle.js',
