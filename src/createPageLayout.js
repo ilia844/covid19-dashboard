@@ -1,8 +1,6 @@
-import CreateElement from './createElement';
+import createElem from './createElement';
 
 export default class CreatePageLayout {
-  elementCreator = new CreateElement();
-
   elements = {
     headerInner: 'Covid19-Dashboard',
     mainElements: `
@@ -23,11 +21,11 @@ export default class CreatePageLayout {
 
     const pageLayoutFrament = document.createDocumentFragment();
 
-    const headerTitle = this.elementCreator.createElem('h1', 'header__title', this.elements.headerInner);
+    const headerTitle = createElem('h1', 'header__title', this.elements.headerInner);
 
-    const header = this.elementCreator.createElem('header', 'header');
-    const main = this.elementCreator.createElem('main', 'main', this.elements.mainElements);
-    const footer = this.elementCreator.createElem('footer', 'footer', this.elements.footerElements);
+    const header = createElem('header', 'header');
+    const main = createElem('main', 'main', this.elements.mainElements);
+    const footer = createElem('footer', 'footer', this.elements.footerElements);
 
     header.append(headerTitle);
     pageLayoutFrament.append(header, main, footer);
