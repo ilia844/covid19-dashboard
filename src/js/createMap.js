@@ -24,17 +24,9 @@ export default class CreateMap {
     fetch('https://disease.sh/v3/covid-19/countries')
       .then((response) => response.json())
       .then((data) => {
-        // console.log(data);
         data.forEach((dataElement) => {
-          // console.log(country);
-          const {
-            country, cases, deaths, recovered,
-          } = dataElement;
-            // eslint-disable-next-line no-console
-          console.log(country, cases, deaths, recovered);
-
           new mapboxgl.Marker({
-            color: getColorFromCasesCount(cases),
+            color: getColorFromCasesCount(dataElement.cases),
           })
             .setLngLat([dataElement.countryInfo.long, dataElement.countryInfo.lat])
             .addTo(map);
