@@ -13,18 +13,18 @@ export default class ControllerApp {
     countriesList: null,
   }
 
-  json = null;
+  dataObj = null;
 
   runModules = () => {
     this.modules.pageCreator = new CreatePageLayout();
-    this.modules.countriesList = new CountriesList(this.json);
+    this.modules.countriesList = new CountriesList(this.dataObj);
   }
 
   async init() {
-    this.json = await this.data.load();
+    this.dataObj = await this.data.load();
     this.runModules();
     this.modules.pageCreator.renderPageLayout();
     this.modules.countriesList.countriesWrapperRender();
-    this.modules.countriesList.countriesContentRender('deaths', '100K');
+    this.modules.countriesList.countriesContentRender('recovered', true);
   }
 }
