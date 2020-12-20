@@ -22,17 +22,17 @@ export default class CountriesList {
   }
 
   getDigitPer100K = (obj, prop) => {
-    if (prop === 0 || prop === null) {
-      return 0;
+    if (!prop || prop === '0') {
+      return '0';
     }
-    if (obj.population === 0 || obj.population === null) {
-      return 0;
+    if (!obj.population || obj.population === '0') {
+      return '0';
     }
-    return Math.round((obj[prop] / obj.population) * 100000);
+    return Math.ceil((obj[prop] / obj.population) * 100000);
   }
 
   countriesWrapperRender = () => {
-    this.listElements.listContainer = document.querySelector('.container_list');
+    this.listElements.listContainer = document.querySelector('.list');
 
     const listFragment = document.createDocumentFragment();
 
@@ -66,14 +66,15 @@ export default class CountriesList {
 
   createListItem = (obj, prop, relative) => {
     const listItemFragment = document.createDocumentFragment();
-    const listItem = createElem('div', 'list__item__content');
+    const listItem = createElem('div', 'list__item');
 
-    const listItemFlag = createElem('div', 'list__item__flag');
-    listItemFlag.style.backgroundImage = `url('${obj.countryInfo.flag}')`;
+    const listItemFlag = createElem('img', 'list__item__flag');
+    // listItemFlag.style.backgroundImage = `url('${obj.countryInfo.flag}')`;
+    listItemFlag.src = obj.countryInfo.flag;
     const listItemCountry = createElem('div', 'list__item__country', obj.country);
     let listItemValue;
     if (relative) {
-      listItemValue = createElem('div', 'list__item__value', this.getDigitPer100K(obj, prop));
+      listItemValue = createElem('div', 'list__item__value', `${this.getDigitPer100K(obj, prop)}`);
     } else {
       listItemValue = createElem('div', 'list__item__value', obj[prop]);
     }

@@ -25,6 +25,6 @@ export default class ControllerApp {
     this.runModules();
     this.modules.pageCreator.renderPageLayout();
     this.modules.countriesList.countriesWrapperRender();
-    this.modules.countriesList.countriesContentRender('deaths', 'per100K');
+    this.modules.countriesList.countriesContentRender('deaths', '100K');
   }
 }
