@@ -1,8 +1,8 @@
 import CreatePageLayout from './createPageLayout';
 import CountriesList from './countriesList';
-import CreateMap from './createMap';
 // import clearParentContainer from './utils/clearParentContainer';
 import Data from './data';
+import CreateMap from './createMap';
 
 export default class ControllerApp {
   constructor() {
@@ -29,3 +29,5 @@ export default class ControllerApp {
     this.modules.countriesList.countriesWrapperRender();
     this.modules.countriesList.countriesContentRender('recovered', true);
     this.mapCreator.create();
+  }
+}
