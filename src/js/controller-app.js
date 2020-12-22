@@ -2,7 +2,7 @@ import CreatePageLayout from './createPageLayout';
 import CountriesList from './countriesList';
 // import clearParentContainer from './utils/clearParentContainer';
 import Data from './data';
-import CreateMap from './createMap';
+import CreateMap from './map';
 
 export default class ControllerApp {
   constructor() {
@@ -28,6 +28,49 @@ export default class ControllerApp {
     this.modules.pageCreator.renderPageLayout();
     this.modules.countriesList.countriesWrapperRender();
     this.modules.countriesList.countriesContentRender('recovered', true);
-    this.mapCreator.create();
+    this.mapCreator.createMap(this.dataObj);
+    this.mapCreator.createLegendIcon();
+    this.mapCreator.renderLegend();
+    this.mapCreator.renderPopup();
+    this.mapEventHandler();
+    this.mapChooseCountry();
+    this.mapRenderNewMarkers();
+  }
+
+  mapEventHandler = () => {
+    const map = document.querySelector('.mapboxgl-map');
+    const markers = document.querySelectorAll('.marker');
+    const popup = document.querySelector('.mapboxgl-popup');
+    const legendIcon = document.querySelector('.map-legend-icon');
+    const legend = document.querySelector('.map-legend');
+    map.addEventListener('mousemove', (e) => {
+      if (Array.prototype.indexOf.call(markers, e.target) !== -1) {
+        popup.classList.add('active');
+      } else {
+        popup.classList.remove('active');
+      }
+    });
+    map.addEventListener('click', (e) => {
+      if (e.target === legendIcon) {
+        legend.classList.toggle('active');
+      } else if (e.target !== legend) {
+        legend.classList.remove('active');
+      }
+    });
+  }
+
+  // Map Tests
+  mapChooseCountry() {
+    const rightButton = document.querySelector('.list__rigth-button');
+    rightButton.addEventListener('click', () => {
+      this.mapCreator.controlMap('Tanzania');
+    });
+  }
+
+  mapRenderNewMarkers() {
+    const leftButton = document.querySelector('.list__left-button');
+    leftButton.addEventListener('click', () => {
+      this.mapCreator.markerResize('recoveredPerHundredThousands');
+    });
   }
 }

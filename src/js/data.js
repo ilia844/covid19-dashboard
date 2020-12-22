@@ -1,6 +1,4 @@
-const urls = {
-  baseUrl: 'https://corona.lmao.ninja/v2/countries',
-};
+import api from './api';
 
 export default class Data {
   constructor() {
@@ -11,7 +9,7 @@ export default class Data {
 
   async load() {
     try {
-      const response = await fetch(urls.baseUrl);
+      const response = await fetch(api.countries);
       this.data = await response.json();
       return this.data;
     } catch (error) {
