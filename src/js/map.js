@@ -22,7 +22,7 @@ export default class Map {
       container: 'map',
       style: 'mapbox://styles/mapbox/dark-v10',
       zoom: 0.5,
-      center: [0, 20],
+      center: [0, 0],
     });
     this.data = data;
     data.forEach((dataElement) => {
