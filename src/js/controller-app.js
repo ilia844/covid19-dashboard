@@ -31,7 +31,6 @@ export default class ControllerApp {
     this.mapCreator.createMap(this.dataObj);
     this.mapCreator.createLegendIcon();
     this.mapCreator.renderLegend();
-    this.mapCreator.renderPopup();
     this.mapEventHandler();
     this.mapChooseCountry();
     this.mapRenderNewMarkers();
@@ -45,6 +44,7 @@ export default class ControllerApp {
     const legend = document.querySelector('.map-legend');
     map.addEventListener('mousemove', (e) => {
       if (Array.prototype.indexOf.call(markers, e.target) !== -1) {
+        this.mapCreator.renderPopup('country', 'indicator', 'indicatorCount');
         popup.classList.add('active');
       } else {
         popup.classList.remove('active');
@@ -70,7 +70,25 @@ export default class ControllerApp {
   mapRenderNewMarkers() {
     const leftButton = document.querySelector('.list__left-button');
     leftButton.addEventListener('click', () => {
-      this.mapCreator.markerResize('recoveredPerHundredThousands');
+      this.mapCreator.markerResize('todayCases', true);
     });
   }
+
+  // indicators = {
+  //   cases: this.dataObj.cases,
+  //   deaths: this.dataObj.deaths,
+  //   recovered: this.dataObj.recovered,
+  //   todayCases: this.dataObj.todayCases,
+  //   todayDeaths: this.dataObj.todayDeaths,
+  //   todayRecovered: this.dataObj.todayRecovered,
+  //   casesPerOneHundredThousands: this.transInPerOneHundredThousands('cases'),
+  //   deathsPerOneHundredThousands: this.transInPerOneHundredThousands('deaths'),
+  //   recoveredPerOneHundredThousands: this.transInPerOneHundredThousands('recovered'),
+  //   todayCasesPerOneHundredThousands: this.transInPerOneHundredThousands('todayCases'),
+  //   todayDeathsPerOneHundredThousands: this.transInPerOneHundredThousands('todayDeaths'),
+  //   todayRecoveredPerOneHundredThousands: this.transInPerOneHundredThousands('todayRecovered'),
+  //   transInPerOneHundredThousands(prop) {
+  //     return Math.ceil((this.dataObj[prop] / this.dataObj.population) * 100000);
+  //   },
+  // }
 }

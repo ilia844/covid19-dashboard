@@ -1,7 +1,9 @@
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl';
 import elements from './nls/pageLayoutElements';
 import createElem from './utils/createElement';
-import sizeCounter from './utils/mapMarkerSizeCounter';
+import getSizeFromCount from './utils/mapMarkerSizeCounter';
+import clearParentContainer from './utils/clearParentContainer';
+import mapPopupBuild from './utils/mapPopupBuilder';
 // import population from './nls/populationQuantity';
 
 const API_KEY = 'pk.eyJ1Ijoidml0YWxpYnVyYWtvdSIsImEiOiJja2lzd2hhZTYwcDBuMnFzYzNhazFnbmJiIn0.mfrcB7xDMdW2jJSJqOqnUQ';
@@ -43,21 +45,23 @@ export default class Map {
   renderMarker = (countryCode, count) => {
     const el = createElem('div', 'marker');
     el.setAttribute('data-code', countryCode);
-    const size = sizeCounter.getSizeMaxCount(count);
-    el.style.width = `${size}px`;
-    el.style.height = `${size}px`;
+    this.markerSizeControl(el, count, 'big');
     this.markers.push(el);
     return el;
   }
 
-  renderLegend = () => {
-    const map = document.getElementById('map');
-    map.insertAdjacentHTML('afterbegin', elements.mapLegend);
+  renderLegend = (markingList) => {
+    const legend = document.querySelector('.map-legend');
+    clearParentContainer(legend);
+    if (markingList === 'big' || !markingList) { legend.insertAdjacentHTML('afterbegin', elements.mapLegend.markingBig); }
+    if (markingList === 'middle') { legend.insertAdjacentHTML('afterbegin', elements.mapLegend.markingMiddle); }
+    if (markingList === 'small') { legend.insertAdjacentHTML('afterbegin', elements.mapLegend.markingSmall); }
   }
 
-  renderPopup = () => {
-    const map = document.getElementById('map');
-    map.insertAdjacentHTML('afterbegin', elements.mapPopup);
+  renderPopup = (country, indicator, indicatorCount) => {
+    const popup = document.querySelector('.mapboxgl-popup');
+    clearParentContainer(popup);
+    popup.insertAdjacentHTML('afterbegin', mapPopupBuild(country, indicator, indicatorCount));
   }
 
   controlMap = (currentCountry) => {
@@ -69,26 +73,37 @@ export default class Map {
     });
   }
 
-  markerResize = (indicator) => {
+  markerResize = (indicator, isPerOneHundredThousands) => {
+    let isLegendRendered = false;
     for (let i = 0; i < this.markers.length; i += 1) {
-      let currentIndicatorCount = this.data[i].indicator;
-      const currentMarker = this.markers[i].style;
-      if (indicator === 'casesPerHundredThousands') {
-        currentIndicatorCount = this.data[i].casesPerOneMillion / 10;
-      } else if (indicator === 'deathsPerHundredThousands') {
-        currentIndicatorCount = this.data[i].deathsPerOneMillion / 10;
-      } else if (indicator === 'recoveredPerHundredThousands') {
-        currentIndicatorCount = this.data[i].recoveredPerOneMillion / 10;
-      }
-      if (indicator === 'cases' || indicator === 'deaths' || indicator === 'recovered') {
-        const size = sizeCounter.getSizeMaxCount(currentIndicatorCount);
-        currentMarker.width = `${size}px`;
-        currentMarker.height = `${size}px`;
+      const currentIndicatorCount = this.data[i][indicator];
+      const currentMarker = this.markers[i];
+      if ((indicator === 'cases' || indicator === 'deaths' || indicator === 'recovered') && !isPerOneHundredThousands) {
+        this.markerSizeControl(currentMarker, currentIndicatorCount, 'big');
+        if (!isLegendRendered) {
+          this.renderLegend('big');
+          isLegendRendered = true;
+        }
+      } else if ((indicator === 'todayCases' || indicator === 'todayDeaths' || indicator === 'todayRecovered') && isPerOneHundredThousands) {
+        this.markerSizeControl(currentMarker, currentIndicatorCount, 'small');
+        if (!isLegendRendered) {
+          this.renderLegend('small');
+          isLegendRendered = true;
+        }
       } else {
-        const size = sizeCounter.getSizeMinCount(currentIndicatorCount);
-        currentMarker.width = `${size}px`;
-        currentMarker.height = `${size}px`;
+        this.markerSizeControl(currentMarker, currentIndicatorCount, 'middle');
+        if (!isLegendRendered) {
+          this.renderLegend('middle');
+          isLegendRendered = true;
+        }
       }
     }
+  }
+
+  markerSizeControl = (marker, count, sizeNumbers) => {
+    const size = getSizeFromCount(count, sizeNumbers);
+    const currentMarker = marker.style;
+    currentMarker.width = `${size}px`;
+    currentMarker.height = `${size}px`;
   }
 }
