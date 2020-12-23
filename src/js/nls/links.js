@@ -5,6 +5,6 @@ export default {
   author3: 'https://github.com/Vitali-Minsk',
   author4: 'https://github.com/ilia844',
   school: 'https://rs.school/js/',
-  schoolImg: '../../src/rs_school_js.svg',
-  gitHubImg: '../../src/GitHub.png',
+  schoolImg: '../assets/images/rs_school_js.svg',
+  gitHubImg: '../assets/images/GitHub.png',
 };
