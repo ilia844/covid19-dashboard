@@ -51,8 +51,8 @@ export default class ControllerApp {
     // this.mapRenderNewMarkers();
     // this.mapCreator.mapControllerCreate();
     this.controlPanel.createAllControlPanels();
-    this.mapChooseCountry();
-    this.mapRenderNewMarkers();
+    // this.mapChooseCountry();
+    // this.mapRenderNewMarkers();
     this.modules.keyboard.init();
   }
 
