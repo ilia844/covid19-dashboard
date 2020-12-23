@@ -1,3 +1,5 @@
+import footerLinks from './footerLinks';
+
 export default {
   headerInner: 'Covid19-Dashboard',
   mainElements: `
@@ -9,11 +11,13 @@ export default {
   <div class="mapboxgl-popup"></>
   </section>
   <section class='container container_chart'>chart</section>`,
-  footerElements: `<a href='#' target='_blank'>Author <img src="" alt=""></a>
-  <a href='#' target='_blank'>Author <img src="" alt=""></a>
-  <a href='#' target='_blank'>Author <img src="" alt=""></a>
-  <a href='#' target='_blank'>Author <img src="" alt=""></a>
-  <a href='#' target='_blank'>School <img src="" alt=""></a>`,
+  footerElements: `
+  <a href='${footerLinks.author1}' target='_blank'><img class="footer__img" src="${footerLinks.gitHubImg}" alt="Author"></a>
+  <a href='${footerLinks.author2}' target='_blank'><img class="footer__img" src="${footerLinks.gitHubImg}" alt="Author"></a>
+  <a href='${footerLinks.author3}' target='_blank'><img class="footer__img" src="${footerLinks.gitHubImg}" alt="Author"></a>
+  <a href='${footerLinks.author4}' target='_blank'><img class="footer__img" src="${footerLinks.gitHubImg}" alt="Author"></a>
+  <span class="footer__year">2020</span>
+  <a href='${footerLinks.school}' target='_blank'><img class="footer__img" src="${footerLinks.schoolImg}" alt="School"></a>`,
   mapLegend: {
     markingBig: `
     <h4>Confirmed</h4>
