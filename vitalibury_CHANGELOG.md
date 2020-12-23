@@ -1,6 +1,8 @@
 # Changelog
 <https://github.com/vitalibury>
 
+## 2020-12-23
+- feat: add virtual keyboard' (3h)
 ## 2020-12-21
 - Deploy project on Netlify (1h)
 
