@@ -14,9 +14,45 @@ body {
   margin: 0 auto;
   font-family: "Roboto", sans-serif;
 
+  i {
+    transition: 0.3s all ease-in;
+    cursor: pointer;
+    &:hover {
+      transition: 0.3s all ease-in;
+      color: #ef3124;
+    }
+  }
+
   .header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     background: #5a5b5d;
+    color: #fff;
     height: 8vh;
+    .header__container {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .logo__img {
+        height: 50px;
+      }
+      .search {
+        display: flex;
+        align-items: center;
+        .search__input {
+          background-color: #212122;
+          margin: 0 5px;
+          padding: 3px;
+          color: #fff;
+        }
+        .search__btn {
+          height: 20px;
+        }
+      }
+    }
   }
 
   .main {
@@ -105,7 +141,7 @@ body {
       }
 
       &__content::-webkit-scrollbar-thumb {
-        background-color: #7b2121e8;
+        background-color: #ef3124;
         border-radius: 5px;
       }
 
@@ -177,7 +213,7 @@ body {
 }
 
 .marker {
-  background-color: rgb(219, 0, 0);
+  background-color: #ef3124;
   background-size: cover;
   border-radius: 50%;
   cursor: pointer;
@@ -216,7 +252,7 @@ body {
   height: 10px;
   margin-right: 5px;
   width: 10px;
-  background-color: rgb(219, 0, 0);
+  background-color: #ef3124;
 }
 
 .map-legend-icon {
@@ -258,6 +294,11 @@ body {
 
 @media only screen and (max-width: 800px) {
   body {
+    .header {
+      .header__title {
+        display: none;
+      }
+    }
     .main {
       grid-template-columns: 1fr 2fr;
       grid-template-rows: 0.5fr 1fr 1fr 2.3fr;
