@@ -1,11 +1,12 @@
 import createElem from './utils/createElement';
+import createIcon from './utils/createIcon';
 
 export default class Search {
   constructor(data) {
     this.data = data;
   }
 
-  header = null;
+  headerContainer = null;
 
   searchElements = {
     searchContainter: null,
@@ -15,24 +16,26 @@ export default class Search {
   };
 
   createSearchFiled = () => {
-    this.header = document.querySelector('header');
+    this.headerContainer = document.querySelector('.header__container');
 
     this.searchElements.searchContainter = createElem('div', 'search');
     this.searchElements.searchInput = createElem('input', 'search__input');
     this.searchElements.searchInput.setAttribute('type', 'text');
     this.searchElements.searchInput.setAttribute('list', 'countries');
 
-    this.searchElements.searchBtn = createElem('button', 'search__btn');
+    this.searchElements.searchBtn = createElem('div', 'search__btn', createIcon('search'));
+    const keyboardBtn = createElem('div', 'keyboard__button', createIcon('keyboard'));
     this.searchElements.countriesList = createElem('datalist');
     this.searchElements.countriesList.id = 'countries';
 
     this.searchElements.searchContainter.append(
+      keyboardBtn,
       this.searchElements.searchInput,
       this.searchElements.countriesList,
       this.searchElements.searchBtn,
     );
 
-    this.header.append(this.searchElements.searchContainter);
+    this.headerContainer.append(this.searchElements.searchContainter);
     const dataList = document.querySelector('#countries');
 
     this.data.forEach((el) => {

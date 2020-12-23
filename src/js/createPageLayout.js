@@ -1,5 +1,6 @@
 import createElem from './utils/createElement';
 import elements from './nls/pageLayoutElements';
+import setCurrentData from './utils/setCurrentDate';
 
 export default class CreatePageLayout {
   renderPageLayout = () => {
@@ -7,14 +8,18 @@ export default class CreatePageLayout {
 
     const pageLayoutFrament = document.createDocumentFragment();
 
-    const headerTitle = createElem('h1', 'header__title', elements.headerInner);
     const header = createElem('header', 'header');
+    const headerContainer = createElem('div', 'header__container', `${elements.headerImg} ${elements.headerTitle} `);
+    const currentDate = createElem('div', 'today');
+    currentDate.textContent = setCurrentData();
+
     const main = createElem('main', 'main', elements.mainElements);
     const footer = createElem('footer', 'footer');
     const footerContainer = createElem('div', 'footer__container', elements.footerElements);
 
     footer.append(footerContainer);
-    header.append(headerTitle);
+    headerContainer.append(currentDate);
+    header.append(headerContainer);
     pageLayoutFrament.append(header, main, footer);
     body.append(pageLayoutFrament);
   }

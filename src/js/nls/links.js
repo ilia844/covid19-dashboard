@@ -1,4 +1,5 @@
 export default {
+  logoImg: '../../src/logo.svg',
   author1: 'https://github.com/VadimAlexandrovich',
   author2: 'https://github.com/vitalibury',
   author3: 'https://github.com/Vitali-Minsk',
