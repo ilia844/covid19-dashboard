@@ -3,6 +3,7 @@ import CountriesList from './countriesList';
 // import clearParentContainer from './utils/clearParentContainer';
 import Data from './data';
 import CreateMap from './map';
+import Keyboard from './keyboard';
 import Search from './search';
 import mapCountryIdentify from './utils/mapCountryIdentificator';
 import Table from './table';
@@ -19,6 +20,7 @@ export default class ControllerApp {
   modules = {
     pageCreator: null,
     countriesList: null,
+    keyboard: null,
     search: null,
   }
 
@@ -29,6 +31,7 @@ export default class ControllerApp {
   runModules = () => {
     this.modules.pageCreator = new CreatePageLayout();
     this.modules.countriesList = new CountriesList(this.dataObj);
+    this.modules.keyboard = new Keyboard();
     this.modules.search = new Search(this.dataObj);
   }
 
@@ -48,6 +51,9 @@ export default class ControllerApp {
     // this.mapRenderNewMarkers();
     // this.mapCreator.mapControllerCreate();
     this.controlPanel.createAllControlPanels();
+    this.mapChooseCountry();
+    this.mapRenderNewMarkers();
+    this.modules.keyboard.init();
   }
 
   mapEventHandler = () => {
