@@ -6,12 +6,14 @@ import CreateMap from './map';
 import Search from './search';
 import mapCountryIdentify from './utils/mapCountryIdentificator';
 import Table from './table';
+import ControlPanel from './controlPanel';
 
 export default class ControllerApp {
   constructor() {
     this.data = new Data();
     this.mapCreator = new CreateMap();
     this.table = new Table();
+    this.controlPanel = new ControlPanel();
   }
 
   modules = {
@@ -42,8 +44,10 @@ export default class ControllerApp {
     this.mapCreator.createLegendIcon();
     this.mapCreator.renderLegend();
     this.mapEventHandler();
-    this.mapChooseCountry();
-    this.mapRenderNewMarkers();
+    // this.mapChooseCountry();
+    // this.mapRenderNewMarkers();
+    // this.mapCreator.mapControllerCreate();
+    this.controlPanel.createAllControlPanels();
   }
 
   mapEventHandler = () => {
@@ -72,19 +76,19 @@ export default class ControllerApp {
   }
 
   // Map Tests
-  mapChooseCountry() {
-    const rightButton = document.querySelector('.list__rigth-button');
-    rightButton.addEventListener('click', () => {
-      this.mapCreator.controlMap('Tanzania');
-    });
-  }
+  // mapChooseCountry() {
+  //   const rightButton = document.querySelector('.list__rigth-button');
+  //   rightButton.addEventListener('click', () => {
+  //     this.mapCreator.controlMap('Tanzania');
+  //   });
+  // }
 
-  mapRenderNewMarkers() {
-    const leftButton = document.querySelector('.list__left-button');
-    leftButton.addEventListener('click', () => {
-      this.mapCreator.markerResize('recovered', true);
-    });
-  }
+  // mapRenderNewMarkers() {
+  //   const leftButton = document.querySelector('.list__left-button');
+  //   leftButton.addEventListener('click', () => {
+  //     this.mapCreator.markerResize('recovered', true);
+  //   });
+  // }
 
   // indicators = {
   //   cases: this.dataObj.cases,

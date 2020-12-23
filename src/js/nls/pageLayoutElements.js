@@ -4,10 +4,6 @@ export default {
   headerInner: 'Covid19-Dashboard',
   mainElements: `
   <section class='container container_info'>Global cases
-  <div class="button-wrapper">
-  <button class="table-btn total">Total</button>
-  <button class="table-btn today">Today</button>
-  <button class="table-btn 100k">/100k</button>
   </section>
   <section class='container container_table'></section>
   <section class='container list'></section>
@@ -23,6 +19,12 @@ export default {
   <a href='${footerLinks.author4}' target='_blank'><img class="footer__img" src="${footerLinks.gitHubImg}" alt="Author"></a>
   <span class="footer__year">2020</span>
   <a href='${footerLinks.school}' target='_blank'><img class="footer__img" src="${footerLinks.schoolImg}" alt="School"></a>`,
+  <section class='container container_chart'></section>`,
+  footerElements: `<a href='#' target='_blank'>Author <img src="" alt=""></a>
+  <a href='#' target='_blank'>Author <img src="" alt=""></a>
+  <a href='#' target='_blank'>Author <img src="" alt=""></a>
+  <a href='#' target='_blank'>Author <img src="" alt=""></a>
+  <a href='#' target='_blank'>School <img src="" alt=""></a>`,
   mapLegend: {
     markingBig: `
     <h4>Confirmed</h4>
@@ -58,6 +60,23 @@ export default {
     <div><span></span>30 – 200</div>
     <div><span></span>10 – 30</div>`,
   },
+  caseController: `
+<div class="button-container button-container__cases">
+  <div class="button-container__wrapper">
+    <button class="btn btn-prev">prev</button>
+    <div class="display-current-indicator">Cases</div>
+    <button class="btn btn-next">next</button>
+  </div>
+</div>
+  `,
+  toggleController: `
+<div class="button-container button-container__toggles">
+  <div class="button-container__wrapper">
+    <button class="btn btn-toggle toggle__today-all">Total</button>
+    <button class="btn btn-toggle toggle__per100k">per100k</button>
+  </div>
+</div>
+  `,
   tableElements: `    
   <div class="table-title"><h3>Country Statistic</h3></div>
   <div class="table-header">
