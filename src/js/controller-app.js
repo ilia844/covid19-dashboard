@@ -5,11 +5,13 @@ import Data from './data';
 import CreateMap from './map';
 import Search from './search';
 import mapCountryIdentify from './utils/mapCountryIdentificator';
+import Table from './table';
 
 export default class ControllerApp {
   constructor() {
     this.data = new Data();
     this.mapCreator = new CreateMap();
+    this.table = new Table();
   }
 
   modules = {
@@ -35,6 +37,7 @@ export default class ControllerApp {
     this.modules.countriesList.countriesWrapperRender();
     this.modules.countriesList.countriesContentRender('recovered', true);
     this.modules.search.createSearchFiled();
+    this.table.createTableLayout(this.dataObj);
     this.mapCreator.createMap(this.dataObj);
     this.mapCreator.createLegendIcon();
     this.mapCreator.renderLegend();
