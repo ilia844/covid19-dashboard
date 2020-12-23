@@ -1,8 +1,14 @@
 # Changelog
 <https://github.com/Vitali-Minsk>
 
+## 2020-12-23
+- Init new branch table
+- Create module table
+- Map final stage #17 by Vitali-Minsk was merged 
+- feat: add control panel layout
+
 ## 2020-12-22
-- Merge pull request #6 by Vitali-Minsk was merged
+- Merge pull request #6 by Vitali-Minsk
 - fix: correct reflection popup
 - fix: correct popup and legend
 

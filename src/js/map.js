@@ -38,7 +38,7 @@ export default class Map {
 
   createLegendIcon = () => {
     const map = document.getElementById('map');
-    const legendIcon = createElem('div', 'map-legend-icon');
+    const legendIcon = createElem('button', 'map-legend-icon', 'L');
     map.prepend(legendIcon);
   }
 
@@ -105,5 +105,10 @@ export default class Map {
     const currentMarker = marker.style;
     currentMarker.width = `${size}px`;
     currentMarker.height = `${size}px`;
+  }
+
+  mapControllerCreate = () => {
+    const map = document.getElementById('map');
+    map.insertAdjacentHTML('afterbegin', elements.mapController);
   }
 }
