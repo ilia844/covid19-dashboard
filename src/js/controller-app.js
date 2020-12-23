@@ -3,6 +3,8 @@ import CountriesList from './countriesList';
 // import clearParentContainer from './utils/clearParentContainer';
 import Data from './data';
 import CreateMap from './map';
+import Search from './search';
+import mapCountryIdentify from './utils/mapCountryIdentificator';
 
 export default class ControllerApp {
   constructor() {
@@ -13,13 +15,17 @@ export default class ControllerApp {
   modules = {
     pageCreator: null,
     countriesList: null,
+    search: null,
   }
 
   dataObj = null;
 
+  indicator = 'recovered';
+
   runModules = () => {
     this.modules.pageCreator = new CreatePageLayout();
     this.modules.countriesList = new CountriesList(this.dataObj);
+    this.modules.search = new Search(this.dataObj);
   }
 
   async init() {
@@ -28,6 +34,7 @@ export default class ControllerApp {
     this.modules.pageCreator.renderPageLayout();
     this.modules.countriesList.countriesWrapperRender();
     this.modules.countriesList.countriesContentRender('recovered', true);
+    this.modules.search.createSearchFiled();
     this.mapCreator.createMap(this.dataObj);
     this.mapCreator.createLegendIcon();
     this.mapCreator.renderLegend();
@@ -44,7 +51,9 @@ export default class ControllerApp {
     const legend = document.querySelector('.map-legend');
     map.addEventListener('mousemove', (e) => {
       if (Array.prototype.indexOf.call(markers, e.target) !== -1) {
-        this.mapCreator.renderPopup('country', 'indicator', 'indicatorCount');
+        const targetCodeCountry = e.target.dataset.code;
+        const paramsPopup = mapCountryIdentify(this.dataObj, targetCodeCountry, this.indicator);
+        this.mapCreator.renderPopup(...paramsPopup); // ('country', 'indicator', 'indicatorCount');
         popup.classList.add('active');
       } else {
         popup.classList.remove('active');
@@ -70,7 +79,7 @@ export default class ControllerApp {
   mapRenderNewMarkers() {
     const leftButton = document.querySelector('.list__left-button');
     leftButton.addEventListener('click', () => {
-      this.mapCreator.markerResize('todayCases', true);
+      this.mapCreator.markerResize('recovered', true);
     });
   }
 
