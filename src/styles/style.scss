@@ -84,7 +84,7 @@ body {
       flex-direction: column;
       background: #333333;
       grid-area: table;
-      position: flex;
+      // position: flex;
       flex-direction: column;
       justify-content: space-between;
     }
@@ -453,4 +453,8 @@ td {
   width: 100%;
   background-color: #272829;
   font-size: 14px;
+}
+
+.list__item__country {
+  cursor: pointer;
 }

@@ -64,11 +64,19 @@ export default class Map {
     popup.insertAdjacentHTML('afterbegin', mapPopupBuild(country, indicator, indicatorCount));
   }
 
-  controlMap = (currentCountry) => {
+  mapFlyToCountry = (currentCountry) => {
     const dataElement = this.data.find((e) => e.country === currentCountry);
     this.map.flyTo({
       center: [dataElement.countryInfo.long, dataElement.countryInfo.lat],
       zoom: 4,
+      essential: true,
+    });
+  }
+
+  mapFlyOut = () => {
+    this.map.flyTo({
+      center: [0, 0],
+      zoom: 1,
       essential: true,
     });
   }

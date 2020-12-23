@@ -26,7 +26,12 @@ export default class ControllerApp {
 
   dataObj = null;
 
-  indicator = 'recovered';
+  currentState = {
+    indicator: 'recovered',
+    isToday: false,
+    isPer100k: false,
+    country: 'Tanzania',
+  }
 
   runModules = () => {
     this.modules.pageCreator = new CreatePageLayout();
@@ -46,14 +51,14 @@ export default class ControllerApp {
     this.mapCreator.createMap(this.dataObj);
     this.mapCreator.createLegendIcon();
     this.mapCreator.renderLegend();
+    this.controlPanel.createAllControlPanels();
+
     this.mapEventHandler();
     // this.mapChooseCountry();
     // this.mapRenderNewMarkers();
     // this.mapCreator.mapControllerCreate();
-    this.controlPanel.createAllControlPanels();
-    this.mapChooseCountry();
-    this.mapRenderNewMarkers();
     this.modules.keyboard.init();
+    this.globalEventHandler();
   }
 
   mapEventHandler = () => {
@@ -62,16 +67,21 @@ export default class ControllerApp {
     const popup = document.querySelector('.mapboxgl-popup');
     const legendIcon = document.querySelector('.map-legend-icon');
     const legend = document.querySelector('.map-legend');
+    const {
+      indicator, isToday, isPer100k, country,
+    } = this.currentState;
+
     map.addEventListener('mousemove', (e) => {
       if (Array.prototype.indexOf.call(markers, e.target) !== -1) {
         const targetCodeCountry = e.target.dataset.code;
-        const paramsPopup = mapCountryIdentify(this.dataObj, targetCodeCountry, this.indicator);
+        const paramsPopup = mapCountryIdentify(this.dataObj, targetCodeCountry, indicator);
         this.mapCreator.renderPopup(...paramsPopup); // ('country', 'indicator', 'indicatorCount');
         popup.classList.add('active');
       } else {
         popup.classList.remove('active');
       }
     });
+
     map.addEventListener('click', (e) => {
       if (e.target === legendIcon) {
         legend.classList.toggle('active');
@@ -83,11 +93,42 @@ export default class ControllerApp {
 
   // Map Tests
   // mapChooseCountry() {
-  //   const rightButton = document.querySelector('.list__rigth-button');
+  //   const rightButton = document.querySelector('.btn-next');
   //   rightButton.addEventListener('click', () => {
-  //     this.mapCreator.controlMap('Tanzania');
+  //     const { country } = this.currentState;
+  //     this.mapCreator.controlMap(country);
   //   });
   // }
+
+  globalEventHandler = () => {
+    const btnGlobal = document.querySelector('.btn-global');
+    const listItems = document.querySelectorAll('.list__item__country');
+    const markers = document.querySelectorAll('.marker');
+    let currentCountry = this.currentState.country;
+    let currentIndicator = this.currentState.indicator;
+    window.addEventListener('click', (e) => {
+      if (Array.prototype.indexOf.call(listItems, e.target) !== -1) {
+        // console.log(e.target);
+        const countryTarget = e.target.innerText;
+        this.mapCreator.mapFlyToCountry(countryTarget);
+        this.table.createTableOneCountry(this.dataObj, countryTarget);
+        currentCountry = countryTarget;
+      }
+      if (Array.prototype.indexOf.call(markers, e.target) !== -1) {
+        // console.log(e.target);
+        const targetCodeCountry = e.target.dataset.code;
+        const paramsPopup = mapCountryIdentify(this.dataObj, targetCodeCountry, currentIndicator);
+        const countryTarget = paramsPopup[0];
+        this.mapCreator.mapFlyToCountry(countryTarget);
+        this.table.createTableOneCountry(this.dataObj, countryTarget);
+        currentCountry = countryTarget;
+      }
+      if (e.target === btnGlobal) {
+        this.table.createTableLayout(this.dataObj);
+        this.mapCreator.mapFlyOut();
+      }
+    });
+  }
 
   // mapRenderNewMarkers() {
   //   const leftButton = document.querySelector('.list__left-button');
