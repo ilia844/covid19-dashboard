@@ -3,6 +3,7 @@ import CountriesList from './countriesList';
 // import clearParentContainer from './utils/clearParentContainer';
 import Data from './data';
 import CreateMap from './map';
+import mapCountryIdentify from './utils/mapCountryIdentificator';
 
 export default class ControllerApp {
   constructor() {
@@ -16,6 +17,8 @@ export default class ControllerApp {
   }
 
   dataObj = null;
+
+  indicator = 'recovered';
 
   runModules = () => {
     this.modules.pageCreator = new CreatePageLayout();
@@ -44,7 +47,9 @@ export default class ControllerApp {
     const legend = document.querySelector('.map-legend');
     map.addEventListener('mousemove', (e) => {
       if (Array.prototype.indexOf.call(markers, e.target) !== -1) {
-        this.mapCreator.renderPopup('country', 'indicator', 'indicatorCount');
+        const targetCodeCountry = e.target.dataset.code;
+        const paramsPopup = mapCountryIdentify(this.dataObj, targetCodeCountry, this.indicator);
+        this.mapCreator.renderPopup(...paramsPopup); // ('country', 'indicator', 'indicatorCount');
         popup.classList.add('active');
       } else {
         popup.classList.remove('active');
@@ -70,7 +75,7 @@ export default class ControllerApp {
   mapRenderNewMarkers() {
     const leftButton = document.querySelector('.list__left-button');
     leftButton.addEventListener('click', () => {
-      this.mapCreator.markerResize('todayCases', true);
+      this.mapCreator.markerResize('recovered', true);
     });
   }
 
