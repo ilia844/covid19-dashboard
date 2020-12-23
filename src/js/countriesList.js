@@ -1,5 +1,5 @@
 import createElem from './utils/createElement';
-import createMaterialIcon from './utils/createIcon';
+// import createMaterialIcon from './utils/createIcon';
 
 export default class CountriesList {
   constructor(data) {
@@ -37,14 +37,16 @@ export default class CountriesList {
     const listFragment = document.createDocumentFragment();
 
     // const listTitle = createElem('div', 'list__title');
+    // eslint-disable-next-line max-len
     // const listLeftButton = createElem('div', 'list__left-button', createMaterialIcon('keyboard_arrow_left'));
+    // eslint-disable-next-line max-len
     // const listRigthButton = createElem('div', 'list__rigth-button', createMaterialIcon('keyboard_arrow_right'));
     this.listElements.listTitleInfo = createElem('div', 'list__title-info');
     // listTitle.append(listLeftButton, this.listElements.listTitleInfo, listRigthButton);
 
     this.listElements.listContent = createElem('div', 'list__content');
 
-    listFragment.append(this.listElements.listContent); //listTitle, 
+    listFragment.append(this.listElements.listContent); // listTitle,
     this.listElements.listContainer.append(listFragment);
   }
 

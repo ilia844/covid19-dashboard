@@ -19,12 +19,6 @@ export default {
   <a href='${footerLinks.author4}' target='_blank'><img class="footer__img" src="${footerLinks.gitHubImg}" alt="Author"></a>
   <span class="footer__year">2020</span>
   <a href='${footerLinks.school}' target='_blank'><img class="footer__img" src="${footerLinks.schoolImg}" alt="School"></a>`,
-  <section class='container container_chart'></section>`,
-  footerElements: `<a href='#' target='_blank'>Author <img src="" alt=""></a>
-  <a href='#' target='_blank'>Author <img src="" alt=""></a>
-  <a href='#' target='_blank'>Author <img src="" alt=""></a>
-  <a href='#' target='_blank'>Author <img src="" alt=""></a>
-  <a href='#' target='_blank'>School <img src="" alt=""></a>`,
   mapLegend: {
     markingBig: `
     <h4>Confirmed</h4>
