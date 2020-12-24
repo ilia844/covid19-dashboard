@@ -13,7 +13,7 @@ export default class ViewChart {
 
   setChartOptions = () => {
     this.chartOptions = {
-      responsive: true,
+      responsive: false,
       scales: {
         yAxes: [{
           ticks: {

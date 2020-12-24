@@ -205,6 +205,7 @@ body {
         width: 100% !important; 
         height: unset !important; 
         flex-grow: 1;
+        flex-shrink: 1;
       }
     }
 
@@ -500,6 +501,10 @@ body {
         grid-area: table;
         height: 100%;
         overflow: hidden;
+      }
+
+      .chart-controller {
+        flex-direction: column;
       }
     }
 
