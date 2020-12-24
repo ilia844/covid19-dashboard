@@ -7,9 +7,6 @@ export default class ModelChart {
     this.covidData = null;
     this.dataForChart = null;
     this.currentCountry = '';
-    this.currentIndex = 0;
-    this.chartIndices = ['cumulativeCases', 'cumulativeDeaths', 'cumulativeRecovered',
-      'dailyCases', 'dailyDeaths', 'dailyRecovered'];
 
     this.queries = {
       baseUrl: 'https://disease.sh/v3/covid-19/historical/',
@@ -25,25 +22,7 @@ export default class ModelChart {
     };
   }
 
-  getNextIndex = () => {
-    if (this.currentIndex === this.chartIndices.length - 1) {
-      this.currentIndex = 0;
-    } else {
-      this.currentIndex += 1;
-    }
-    return this.chartIndices[this.currentIndex];
-  };
-
-  getPreviousIndex = () => {
-    if (this.currentIndex === 0) {
-      this.currentIndex = this.chartIndices.length - 1;
-    } else {
-      this.currentIndex -= 1;
-    }
-    return this.chartIndices[this.currentIndex];
-  }
-
-  updateData = async (country, isPer100K = false) => {
+  updateData = async (country, isPer100K) => {
     if (country === 'all') {
       this.isForCountry = false;
     } else {
@@ -64,11 +43,11 @@ export default class ModelChart {
     this.prepareDataForChart(isPer100K);
   }
 
-  updatePopulation = async (country) => {
+  updatePopulation = async () => {
     let query = '';
     this.isPer100K = true;
     if (this.isForCountry) {
-      query = `${this.queries.countryPopulation}${country}`;
+      query = `${this.queries.countryPopulation}${this.currentCountry}`;
     } else {
       query = `${this.queries.allPopulation}`;
     }
@@ -79,20 +58,20 @@ export default class ModelChart {
       });
   }
 
-  prepareDataForChart = (isPer100k = false) => {
+  prepareDataForChart = (isPer100k) => {
     this.isPer100K = isPer100k;
     this.dataForChart = {
-      cumulativeCases:
+      cases:
         this.prepareCumulativeData(this.covidData.cases, 'Cumulative Cases', this.chartColors.cases),
-      cumulativeDeaths:
+      deaths:
         this.prepareCumulativeData(this.covidData.deaths, 'Cumulative Deaths', this.chartColors.deaths),
-      cumulativeRecovered:
+      recovered:
         this.prepareCumulativeData(this.covidData.recovered, 'Cumulative Recovered', this.chartColors.recovered),
-      dailyCases:
+      todayCases:
         this.prepareDailyData(this.covidData.cases, 'Daily Cases', this.chartColors.cases),
-      dailyDeaths:
+      todayDeaths:
         this.prepareDailyData(this.covidData.deaths, 'Daily Deaths', this.chartColors.deaths),
-      dailyRecovered:
+      todayRecovered:
         this.prepareDailyData(this.covidData.recovered, 'Daily Recovered', this.chartColors.recovered),
     };
   }
@@ -159,17 +138,13 @@ export default class ModelChart {
     return dailyData;
   }
 
-  roundNumber = (number, digits = 2) => {
+  roundNumber = (number, digits) => {
     const divider = 10 ** digits;
-    return Math.round(number * divider) / divider;
+    const newNum = Math.round(number * divider) / divider;
+    return newNum;
   }
 
   getFullUrl = (country) => `${this.queries.baseUrl}${country}?${this.queries.daysParam}`;
 
-  getData = () => this.covidData;
-
-  getDataForChart = (index) => {
-    this.currentIndex = this.chartIndices.indexOf(index);
-    return JSON.stringify(this.dataForChart[index]);
-  }
+  getDataForChart = (index) => JSON.stringify(this.dataForChart[index]);
 }

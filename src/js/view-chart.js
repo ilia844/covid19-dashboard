@@ -4,6 +4,7 @@ export default class ViewChart {
   createChart = () => {
     this.chartElement = document.createElement('canvas');
     this.chartElement.classList.add('chart-canvas');
+
     document.querySelector('.container_chart').prepend(this.chartElement);
 
     this.chartContext = this.chartElement.getContext('2d');
@@ -12,7 +13,7 @@ export default class ViewChart {
 
   setChartOptions = () => {
     this.chartOptions = {
-      responsive: true,
+      responsive: false,
       scales: {
         yAxes: [{
           ticks: {
@@ -42,21 +43,6 @@ export default class ViewChart {
     };
   }
 
-  // createSliderBar = () => {
-  //   const sliderBar = document.createElement('div');
-  //   const leftBtn = document.createElement('button');
-  //   const rightBtn = document.createElement('button');
-  //   const sliderTitle = document.createElement('span');
-
-  //   sliderBar.classList.add('chart-slider');
-  //   leftBtn.classList.add('chart-slider__btn', 'chart-left-btn');
-  //   rightBtn.classList.add('chart-slider__btn', 'chart-right-btn');
-  //   sliderTitle.classList.add('chart-slider__title', 'chart-title');
-
-  //   sliderBar.append(leftBtn, sliderTitle, rightBtn);
-  //   document.querySelector('.container_chart').append(sliderBar);
-  // }
-
   convertAxisData = (value) => {
     let convertNum = value;
     if (value >= 1000000) {
@@ -68,11 +54,7 @@ export default class ViewChart {
   }
 
   generateChart = (dataForChart) => {
-    // const chartTitle = document.querySelector('.chart-title');
     const dataNew = JSON.parse(dataForChart);
-
-    // chartTitle.textContent = dataNew.data.datasets[0].label;
-
     dataNew.options = this.chartOptions;
 
     if (this.myChart) this.myChart.destroy();

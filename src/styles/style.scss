@@ -188,15 +188,24 @@ body {
     }
 
     .container_chart {
-      background:  #3a3939;
+      background: #3a3939;
       grid-area: chart;
       flex-direction: column;
       justify-content: space-between;
+
+      .canvas-container {
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+      }
 
       .chart-canvas {
         width: 100% !important; 
         height: unset !important; 
         flex-grow: 1;
+        flex-shrink: 1;
       }
     }
 
@@ -325,12 +334,14 @@ body {
     .chart-controller {
       display: flex;
       flex-direction: row;
+      flex-wrap: wrap;
       justify-content: space-around;
+      align-items: center;
       width: 100%;
       background-color: #272829;
       font-size: 14px;
     }
-    
+
     .list__item__country {
       cursor: pointer;
     }
@@ -339,10 +350,10 @@ body {
       background-color: #691916;
     }
 
-.btn:active {
-  background-color: #691916;
-}
-    
+    .btn:active {
+      background-color: #691916;
+    }
+
     .mapboxgl-map {
       position: relative;
     }
@@ -490,6 +501,10 @@ body {
         grid-area: table;
         height: 100%;
         overflow: hidden;
+      }
+
+      .chart-controller {
+        flex-direction: column;
       }
     }
 
