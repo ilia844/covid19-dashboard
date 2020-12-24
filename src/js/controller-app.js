@@ -52,8 +52,6 @@ export default class ControllerApp {
     this.modules.search.createSearchFiled();
     this.table.createTableLayout(this.dataObj);
     this.mapCreator.createMap(this.dataObj);
-    this.mapCreator.createLegendIcon();
-    this.mapCreator.renderLegend();
     this.controlPanel.createAllControlPanels();
     this.mapEventHandler();
     this.modules.keyboard.init();
@@ -132,11 +130,16 @@ export default class ControllerApp {
       }
       if (Array.prototype.indexOf.call(togglePer100k, e.target) !== -1) {
         this.state.isPer100k = !this.state.isPer100k;
-        togglePer100k.forEach((el) => el.classList.toggle('toggle-active'));
-        if (!this.state.country) {
-          this.table.createTableLayout(this.dataObj, this.state.isPer100k);
+        if (this.state.isPer100k) {
+          togglePer100k.forEach((el) => el.classList.add('toggle-active'));
         } else {
-          this.table.createTableCountry(this.dataObj, this.state.country, this.state.isPer100k);
+          togglePer100k.forEach((el) => el.classList.remove('toggle-active'));
+        }
+        if (!this.state.country) {
+          this.table.createTableLayout(this.dataObj, this.state.isPer100k, this.state.isToday);
+        } else {
+          this.table.createTableCountry(this.dataObj, this.state.country, this
+            .state.isPer100k, this.state.isToday);
         }
         this.modules.countriesList
           .countriesContentChange(this.state.indicator, this.state.isPer100k);
@@ -169,7 +172,11 @@ export default class ControllerApp {
 
       if (Array.prototype.indexOf.call(toggleToday, e.target) !== -1) {
         this.state.isToday = !this.state.isToday;
-        toggleToday.forEach((el) => el.classList.toggle('toggle-active'));
+        if (this.state.isToday) {
+          toggleToday.forEach((el) => el.classList.add('toggle-active'));
+        } else {
+          toggleToday.forEach((el) => el.classList.remove('toggle-active'));
+        }
         this.state.indicator = totalToToday(this.state.isToday, this.state.indicator);
         this.modules.countriesList
           .countriesContentChange(this.state.indicator, this.state.isPer100k);
