@@ -59,8 +59,7 @@ export default class ControllerApp {
     this.modules.keyboard.init();
     this.globalEventHandler();
     this.chartController.createChart();
-    this.chartController.renderChart('all', false)
-      .then(() => this.chartController.changeChart('dailyCases'));
+    this.chartController.renderChart('all', false, this.state.indicator);
   }
 
   mapEventHandler = () => {
@@ -108,6 +107,8 @@ export default class ControllerApp {
         this.mapCreator.mapFlyToCountry(countryTarget);
         this.table.createTableCountry(this.dataObj, countryTarget);
         this.state.country = countryTarget;
+        this.chartController
+          .renderChart(this.state.country, this.state.isPer100k, this.state.indicator);
         searchInput.value = '';
       }
       if (Array.prototype.indexOf.call(markers, e.target) !== -1) {
@@ -117,6 +118,8 @@ export default class ControllerApp {
         this.mapCreator.mapFlyToCountry(countryTarget);
         this.table.createTableCountry(this.dataObj, countryTarget);
         this.state.country = countryTarget;
+        this.chartController
+          .renderChart(this.state.country, this.state.isPer100k, this.state.indicator);
         searchInput.value = '';
       }
       if (Array.prototype.indexOf.call(btnGlobal, e.target) !== -1) {
@@ -124,6 +127,8 @@ export default class ControllerApp {
         this.mapCreator.mapFlyOut();
         searchInput.value = '';
         this.state.country = null;
+        this.chartController
+          .renderChart(this.state.country, this.state.isPer100k, this.state.indicator);
       }
       if (Array.prototype.indexOf.call(togglePer100k, e.target) !== -1) {
         this.state.isPer100k = !this.state.isPer100k;
@@ -135,6 +140,7 @@ export default class ControllerApp {
         }
         this.modules.countriesList
           .countriesContentChange(this.state.indicator, this.state.isPer100k);
+        this.chartController.changeDimensions(this.state.isPer100k, this.state.indicator);
       }
       this.mapCreator.markerResize(this.state.indicator, this.state.isPer100k);
 
@@ -143,6 +149,7 @@ export default class ControllerApp {
         this.modules.countriesList.countriesContentChange(nextInd, this.state.isPer100k);
         this.state.indicator = nextInd;
         this.mapCreator.markerResize(this.state.indicator, this.state.isPer100k);
+        this.chartController.changeChart(this.state.indicator);
         display.forEach((el) => {
           const displayElem = el;
           displayElem.innerText = this.state.indicator;
@@ -153,6 +160,7 @@ export default class ControllerApp {
         this.modules.countriesList.countriesContentChange(prevInd, this.state.isPer100k);
         this.state.indicator = prevInd;
         this.mapCreator.markerResize(this.state.indicator, this.state.isPer100k);
+        this.chartController.changeChart(this.state.indicator);
         display.forEach((el) => {
           const displayElem = el;
           displayElem.innerText = this.state.indicator;
@@ -166,6 +174,7 @@ export default class ControllerApp {
         this.modules.countriesList
           .countriesContentChange(this.state.indicator, this.state.isPer100k);
         this.mapCreator.markerResize(this.state.indicator, this.state.isPer100k);
+        this.chartController.changeChart(this.state.indicator);
         if (!this.state.country) {
           this.table.createTableLayout(this.dataObj, this.state.isPer100k, this.state.isToday);
         } else {
@@ -182,6 +191,8 @@ export default class ControllerApp {
         this.mapCreator.mapFlyToCountry(countryTarget);
         this.table.createTableCountry(this.dataObj, countryTarget);
         this.state.country = countryTarget;
+        this.chartController
+          .renderChart(this.state.country, this.state.isPer100k, this.state.indicator);
       }
     });
   }

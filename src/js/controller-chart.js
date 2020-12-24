@@ -9,35 +9,22 @@ export default class ControllerChart {
 
   createChart = () => {
     this.viewChart.createChart();
-    // this.viewChart.createSliderBar();
-
-    // document.querySelector('.chart-right-btn')
-    //   .addEventListener('click', this.nextChart);
-    // document.querySelector('.chart-left-btn')
-    //   .addEventListener('click', this.prevChart);
   }
 
-  nextChart = () => {
-    const nextIndex = this.modelChart.getNextIndex();
-    this.viewChart.generateChart(this.modelChart.getDataForChart(nextIndex));
+  changeDimensions = (isPer100K, indicator) => {
+    this.modelChart.updatePopulation()
+      .then(() => {
+        this.modelChart.prepareDataForChart(isPer100K);
+        this.viewChart.generateChart(this.modelChart.getDataForChart(indicator));
+      });
   }
 
-  prevChart = () => {
-    const prevIndex = this.modelChart.getPreviousIndex();
-    this.viewChart.generateChart(this.modelChart.getDataForChart(prevIndex));
+  renderChart = async (country, isPer100K, indicator) => {
+    await this.modelChart.updateData((!country ? 'all' : country), isPer100K);
+    this.viewChart.generateChart(this.modelChart.getDataForChart(indicator));
   }
 
-  renderChart = async (country, isPer100K = false) => {
-    await this.modelChart.updateData(country, isPer100K);
-    this.viewChart.generateChart(this.modelChart.getDataForChart('cumulativeRecovered'));
-  }
-
-  changeChart = (index) => {
-    this.viewChart.generateChart(this.modelChart.getDataForChart(index));
-  }
-
-  updateChart = async (country, isPer100K = false) => {
-    await this.modelChart.updateData(country, isPer100K);
-    this.modelChart.prepareDataForChart();
+  changeChart = (indicator) => {
+    this.viewChart.generateChart(this.modelChart.getDataForChart(indicator));
   }
 }
