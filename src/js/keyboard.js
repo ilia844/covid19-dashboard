@@ -342,7 +342,7 @@ export default class Keyboard {
 
   imitationFunc = () => {
     document.addEventListener('keydown', (event) => {
-      Keyboard.elements.keys.forEach((button) => {
+      this.elements.keys.forEach((button) => {
         if (event.key === button.innerText) {
           button.classList.add('listen__active__key');
           setTimeout(() => {
