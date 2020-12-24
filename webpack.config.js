@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-// const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ESLintWebpackPlugin = require('eslint-webpack-plugin');
 const webpack = require('webpack');
@@ -35,6 +35,12 @@ const plugins = [
     },
   }),
   new CleanWebpackPlugin(),
+  new CopyWebpackPlugin({
+    patterns: [{
+      from: path.resolve(__dirname, 'src/assets/images/'),
+      to: path.resolve(__dirname, 'dist'),
+    }],
+  }),
   new MiniCssExtractPlugin({
     filename: devMode ? '[name].bundle.css' : '[name].bundle.css',
     chunkFilename: devMode ? '[name].bundle.css' : '[name].bundle.css',
