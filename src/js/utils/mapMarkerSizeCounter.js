@@ -9,6 +9,7 @@ export default function getSizeFromCount(count, sizeNumbers) {
     if (count > 3000 && count < 20000) return 8;
     if (count > 1000 && count < 3000) return 6;
     if (count > 1 && count < 1000) return 4;
+    if (!count) return 1;
   }
   if (sizeNumbers === 'middle') {
     if (count > 100000 && count < 500000) return 20;
@@ -20,6 +21,7 @@ export default function getSizeFromCount(count, sizeNumbers) {
     if (count > 300 && count < 2000) return 8;
     if (count > 100 && count < 300) return 6;
     if (count > 1 && count < 100) return 4;
+    if (!count) return 1;
   }
   if (sizeNumbers === 'small') {
     if (count > 10000 && count < 50000) return 20;
@@ -31,6 +33,7 @@ export default function getSizeFromCount(count, sizeNumbers) {
     if (count > 30 && count < 200) return 8;
     if (count > 10 && count < 30) return 6;
     if (count > 1 && count < 10) return 4;
+    if (!count) return 1;
   }
   return '';
 }

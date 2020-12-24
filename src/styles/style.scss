@@ -84,7 +84,7 @@ body {
       flex-direction: column;
       background: #333333;
       grid-area: table;
-      position: flex;
+      // position: flex;
       flex-direction: column;
       justify-content: space-between;
     }
@@ -296,6 +296,18 @@ body {
       font-size: 14px;
     }
     
+    .list__item__country {
+      cursor: pointer;
+    }
+
+    .toggle-active {
+      background-color: #691916;
+    }
+
+.btn:active {
+  background-color: #691916;
+}
+    
     .mapboxgl-map {
       position: relative;
     }
@@ -472,3 +484,4 @@ body {
     }
   }
 }
+

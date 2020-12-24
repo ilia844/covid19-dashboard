@@ -6,7 +6,18 @@ export default {
   mainElements: `
   <section class='container container_info'>Global cases
   </section>
-  <section class='container container_table'></section>
+  <section class='container container_table'>
+  <div class="table-title"><h3>Countries Statistic</h3></div>
+  <div class="table-header">
+  <div class="table-header_item">Country</div>
+  <div class="table-header_item">Cases</div>
+  <div class="table-header_item">Deaths</div>
+  <div class="table-header_item">Recovered</div>
+  </div>
+  <div class="table-wrapper">
+  <table class="table"></table>
+  </div>
+  </section>
   <section class='container list'></section>
   <section class='container container_map' id='map'>
   <div id="state-legend" class="map-legend"></div>
@@ -59,7 +70,7 @@ export default {
 <div class="button-container button-container__cases">
   <div class="button-container__wrapper">
     <button class="btn btn-prev">prev</button>
-    <div class="display-current-indicator">Cases</div>
+    <div class="display-current-indicator">сases</div>
     <button class="btn btn-next">next</button>
   </div>
 </div>
@@ -67,20 +78,10 @@ export default {
   toggleController: `
 <div class="button-container button-container__toggles">
   <div class="button-container__wrapper">
-    <button class="btn btn-toggle toggle__today-all">Total</button>
+    <button class="btn btn-toggle toggle__today-all">Today</button>
     <button class="btn btn-toggle toggle__per100k">per100k</button>
+    <button class="btn btn-global">Global</button>
   </div>
 </div>
   `,
-  tableElements: `    
-  <div class="table-title"><h3>Country Statistic</h3></div>
-  <div class="table-header">
-  <div class="table-header_item">Country</div>
-  <div class="table-header_item">Cases</div>
-  <div class="table-header_item">Deaths</div>
-  <div class="table-header_item">Recovered</div>
-  </div>
-  <div class="table-wrapper">
-  <table class="table"></table>
-  </div>`,
 };

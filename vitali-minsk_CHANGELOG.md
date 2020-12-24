@@ -2,6 +2,7 @@
 <https://github.com/Vitali-Minsk>
 
 ## 2020-12-23
+- setup controller-app
 - Init new branch table
 - Create module table
 - Map final stage #17 by Vitali-Minsk was merged 
