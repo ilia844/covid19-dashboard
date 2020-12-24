@@ -110,16 +110,17 @@ export default class CountriesList {
   }
 
   countriesContentChange = (indicator, isPer100k) => {
-    this.listElements.listArray.forEach((listElement) => {
-      const countryItem = listElement.childNodes[1].innerHTML;
+    this.listElements.listArray.forEach((element) => {
+      const countryItem = element.childNodes[1].innerHTML;
       // console.log(countryItem);
       const dataElement = this.data.find((elem) => elem.country === countryItem);
       let indicatorCount = dataElement[indicator];
+      const listElem = element;
       if (isPer100k) {
         indicatorCount = translatePer100k(indicatorCount, dataElement.population);
-        listElement.lastChild.innerHTML = indicatorCount;
+        listElem.lastChild.innerHTML = indicatorCount;
       } else {
-        listElement.lastChild.innerHTML = indicatorCount;
+        listElem.lastChild.innerHTML = indicatorCount;
       }
     });
   }

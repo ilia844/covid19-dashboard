@@ -84,10 +84,4 @@ export default {
   </div>
 </div>
   `,
-  //   tableElements: `
-  // `,
-  // tableOneCountry: `
-  // <div class="table-title"><h3>Country Statistic</h3></div>
-  // <div class="table-oneCountry"></div>
-  // `
 };

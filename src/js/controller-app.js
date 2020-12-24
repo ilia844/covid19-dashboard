@@ -27,7 +27,7 @@ export default class ControllerApp {
 
   dataObj = null;
 
-  currentState = {
+  state = {
     indicator: 'cases',
     isToday: false,
     isPer100k: false,
@@ -46,7 +46,7 @@ export default class ControllerApp {
     this.runModules();
     this.modules.pageCreator.renderPageLayout();
     this.modules.countriesList.countriesWrapperRender();
-    this.modules.countriesList.countriesContentRender(this.currentState.indicator, this.currentState.isPer100k);
+    this.modules.countriesList.countriesContentRender(this.state.indicator, this.state.isPer100k);
     this.modules.search.createSearchFiled();
     this.table.createTableLayout(this.dataObj);
     this.mapCreator.createMap(this.dataObj);
@@ -68,7 +68,8 @@ export default class ControllerApp {
     map.addEventListener('mousemove', (e) => {
       if (Array.prototype.indexOf.call(markers, e.target) !== -1) {
         const targetCodeCountry = e.target.dataset.code;
-        const paramsPopup = mapCountryIdentify(this.dataObj, targetCodeCountry, this.currentState.indicator, this.currentState.isPer100k);
+        const paramsPopup = mapCountryIdentify(this.dataObj, targetCodeCountry, this.state
+          .indicator, this.state.isPer100k);
         this.mapCreator.renderPopup(...paramsPopup);
         popup.classList.add('active');
       } else {
@@ -95,13 +96,13 @@ export default class ControllerApp {
     const listItems = document.querySelectorAll('.list__item__country');
     const markers = document.querySelectorAll('.marker');
     const display = document.querySelectorAll('.display-current-indicator');
-    const currentIndicator = this.currentState.indicator;
+    const currentIndicator = this.state.indicator;
     window.addEventListener('click', (e) => {
       if (Array.prototype.indexOf.call(listItems, e.target) !== -1) {
         const countryTarget = e.target.innerText;
         this.mapCreator.mapFlyToCountry(countryTarget);
-        this.table.createTableOneCountry(this.dataObj, countryTarget);
-        this.currentState.country = countryTarget;
+        this.table.createTableCountry(this.dataObj, countryTarget);
+        this.state.country = countryTarget;
         searchInput.value = '';
       }
       if (Array.prototype.indexOf.call(markers, e.target) !== -1) {
@@ -109,53 +110,63 @@ export default class ControllerApp {
         const paramsPopup = mapCountryIdentify(this.dataObj, targetCodeCountry, currentIndicator);
         const countryTarget = paramsPopup[0];
         this.mapCreator.mapFlyToCountry(countryTarget);
-        this.table.createTableOneCountry(this.dataObj, countryTarget);
-        this.currentState.country = countryTarget;
+        this.table.createTableCountry(this.dataObj, countryTarget);
+        this.state.country = countryTarget;
         searchInput.value = '';
       }
       if (Array.prototype.indexOf.call(btnGlobal, e.target) !== -1) {
         this.table.createTableLayout(this.dataObj);
         this.mapCreator.mapFlyOut();
         searchInput.value = '';
-        this.currentState.country = null;
+        this.state.country = null;
       }
       if (Array.prototype.indexOf.call(togglePer100k, e.target) !== -1) {
-        this.currentState.isPer100k = !this.currentState.isPer100k;
+        this.state.isPer100k = !this.state.isPer100k;
         togglePer100k.forEach((el) => el.classList.toggle('toggle-active'));
-        if (!this.currentState.country) {
-          this.table.createTableLayout(this.dataObj, this.currentState.isPer100k);
+        if (!this.state.country) {
+          this.table.createTableLayout(this.dataObj, this.state.isPer100k);
         } else {
-          this.table.createTableOneCountry(this.dataObj, this.currentState.country, this.currentState.isPer100k);
+          this.table.createTableCountry(this.dataObj, this.state.country, this.state.isPer100k);
         }
-        this.modules.countriesList.countriesContentChange(this.currentState.indicator, this.currentState.isPer100k);
+        this.modules.countriesList
+          .countriesContentChange(this.state.indicator, this.state.isPer100k);
       }
-      this.mapCreator.markerResize(this.currentState.indicator, this.currentState.isPer100k);
+      this.mapCreator.markerResize(this.state.indicator, this.state.isPer100k);
 
       if (Array.prototype.indexOf.call(btnNext, e.target) !== -1) {
-        const nextInd = changeIndicator(this.currentState.indicator, 'next', this.currentState.isToday);
-        this.modules.countriesList.countriesContentChange(nextInd, this.currentState.isPer100k);
-        this.currentState.indicator = nextInd;
-        this.mapCreator.markerResize(this.currentState.indicator, this.currentState.isPer100k);
-        display.forEach((el) => { el.innerText = this.currentState.indicator; });
+        const nextInd = changeIndicator(this.state.indicator, 'next', this.state.isToday);
+        this.modules.countriesList.countriesContentChange(nextInd, this.state.isPer100k);
+        this.state.indicator = nextInd;
+        this.mapCreator.markerResize(this.state.indicator, this.state.isPer100k);
+        display.forEach((el) => {
+          const displayElem = el;
+          displayElem.innerText = this.state.indicator;
+        });
       }
       if (Array.prototype.indexOf.call(btnPrev, e.target) !== -1) {
-        const prevInd = changeIndicator(this.currentState.indicator, 'prev', this.currentState.isToday);
-        this.modules.countriesList.countriesContentChange(prevInd, this.currentState.isPer100k);
-        this.currentState.indicator = prevInd;
-        this.mapCreator.markerResize(this.currentState.indicator, this.currentState.isPer100k);
-        display.forEach((el) => { el.innerText = this.currentState.indicator; });
+        const prevInd = changeIndicator(this.state.indicator, 'prev', this.state.isToday);
+        this.modules.countriesList.countriesContentChange(prevInd, this.state.isPer100k);
+        this.state.indicator = prevInd;
+        this.mapCreator.markerResize(this.state.indicator, this.state.isPer100k);
+        display.forEach((el) => {
+          const displayElem = el;
+          displayElem.innerText = this.state.indicator;
+        });
       }
 
       if (Array.prototype.indexOf.call(toggleToday, e.target) !== -1) {
-        this.currentState.isToday = !this.currentState.isToday;
+        this.state.isToday = !this.state.isToday;
         toggleToday.forEach((el) => el.classList.toggle('toggle-active'));
-        this.currentState.indicator = totalToToday(this.currentState.isToday, this.currentState.indicator);
-        this.modules.countriesList.countriesContentChange(this.currentState.indicator, this.currentState.isPer100k);
-        this.mapCreator.markerResize(this.currentState.indicator, this.currentState.isPer100k);
-        if (!this.currentState.country) {
-          this.table.createTableLayout(this.dataObj, this.currentState.isPer100k, this.currentState.isToday);
+        this.state.indicator = totalToToday(this.state.isToday, this.state.indicator);
+        this.modules.countriesList
+          .countriesContentChange(this.state.indicator, this.state.isPer100k);
+        this.mapCreator.markerResize(this.state.indicator, this.state.isPer100k);
+        if (!this.state.country) {
+          this.table.createTableLayout(this.dataObj, this.state.isPer100k, this.state.isToday);
         } else {
-          this.table.createTableOneCountry(this.dataObj, this.currentState.country, this.currentState.isPer100k, this.currentState.isToday);
+          this.table
+            .createTableCountry(this.dataObj, this.state
+              .country, this.state.isPer100k, this.state.isToday);
         }
       }
     });
@@ -164,8 +175,8 @@ export default class ControllerApp {
       if (this.dataObj.find((dataElem) => dataElem.country === searchInput.value)) {
         const countryTarget = searchInput.value;
         this.mapCreator.mapFlyToCountry(countryTarget);
-        this.table.createTableOneCountry(this.dataObj, countryTarget);
-        this.currentState.country = countryTarget;
+        this.table.createTableCountry(this.dataObj, countryTarget);
+        this.state.country = countryTarget;
       }
     });
   }

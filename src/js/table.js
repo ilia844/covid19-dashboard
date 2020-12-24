@@ -1,4 +1,3 @@
-// import pageLayout from './nls/pageLayoutElements';
 import createElem from './utils/createElement';
 import clearParentContainer from './utils/clearParentContainer';
 import translatePer100k from './utils/translatePer100k';
@@ -7,7 +6,6 @@ export default class Table {
   createTableLayout = (data, isPer100k, isToday) => {
     const tableContainer = document.querySelector('.table');
     clearParentContainer(tableContainer);
-    // const table = document.querySelector('.table');
     const fragment = document.createDocumentFragment();
     data.forEach((dataElement) => {
       const tr = createElem('tr');
@@ -19,7 +17,6 @@ export default class Table {
         elemDeaths = dataElement.todayDeaths;
         elemRecovered = dataElement.todayRecovered;
       }
-      // console.log(elemCases, elemDeaths, elemRecovered)
       if (isPer100k) {
         const casePer100k = translatePer100k(elemCases, dataElement.population);
         const deathsPer100k = translatePer100k(elemDeaths, dataElement.population);
@@ -33,8 +30,7 @@ export default class Table {
     tableContainer.append(fragment);
   }
 
-  createTableOneCountry = (data, currentCountry, isPer100k, isToday) => {
-    // console.log(data, currentCountry, isPer100k);
+  createTableCountry = (data, currentCountry, isPer100k, isToday) => {
     const tableContainer = document.querySelector('.table');
     const dataElement = data.find((el) => el.country === currentCountry);
     clearParentContainer(tableContainer);
@@ -46,7 +42,6 @@ export default class Table {
       elemCases = dataElement.todayCases;
       elemDeaths = dataElement.todayDeaths;
       elemRecovered = dataElement.todayRecovered;
-      // console.log(elemCases, elemDeaths, elemRecovered)
     }
     if (isPer100k) {
       const casePer100k = translatePer100k(elemCases, dataElement.population);
