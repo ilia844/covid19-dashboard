@@ -9,6 +9,7 @@ import Table from './table';
 import ControlPanel from './controlPanel';
 import changeIndicator from './utils/changeIndicator';
 import totalToToday from './utils/totalToToday';
+import ControllerChart from './controller-chart';
 
 export default class ControllerApp {
   constructor() {
@@ -16,6 +17,7 @@ export default class ControllerApp {
     this.mapCreator = new CreateMap();
     this.table = new Table();
     this.controlPanel = new ControlPanel();
+    this.chartController = new ControllerChart();
   }
 
   modules = {
@@ -56,6 +58,9 @@ export default class ControllerApp {
     this.mapEventHandler();
     this.modules.keyboard.init();
     this.globalEventHandler();
+    this.chartController.createChart();
+    this.chartController.renderChart('all', false)
+      .then(() => this.chartController.changeChart('dailyCases'));
   }
 
   mapEventHandler = () => {

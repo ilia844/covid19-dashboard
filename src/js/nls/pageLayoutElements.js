@@ -23,7 +23,7 @@ export default {
   <div id="state-legend" class="map-legend"></div>
   <div class="mapboxgl-popup"></>
   </section>
-  <section class='container container_chart'>chart</section>`,
+  <section class='container container_chart'></section>`,
   footerElements: `
   <a href='${links.author1}' target='_blank'><img class="footer__img" src="${links.gitHubImg}" alt="Author"></a>
   <a href='${links.author2}' target='_blank'><img class="footer__img" src="${links.gitHubImg}" alt="Author"></a>
