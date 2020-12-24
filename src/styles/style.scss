@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,700;1,300&display=swap");
-@import './keyboard-styles.scss';
+@import "./keyboard-styles.scss";
 
 * {
   margin: 0;
@@ -176,10 +176,15 @@ body {
     }
 
     .container_chart {
-      background: #ffe5a7;
+      background:  #3a3939;
       grid-area: chart;
       flex-direction: column;
       justify-content: space-between;
+
+      .chart-canvas {
+        // flex-grow: 1;
+        // color: white;
+      }
     }
 
     .table {
