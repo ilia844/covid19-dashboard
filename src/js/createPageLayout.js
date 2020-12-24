@@ -2,7 +2,6 @@ import createElem from './utils/createElement';
 import elements from './nls/pageLayoutElements';
 import setCurrentData from './utils/setCurrentDate';
 import createIcon from './utils/createIcon';
-// import createBtn from './utils/fullScreen';
 
 export default class CreatePageLayout {
   renderPageLayout = () => {
@@ -27,7 +26,6 @@ export default class CreatePageLayout {
 
     const containers = document.querySelectorAll('.container');
     containers.forEach((el) => {
-      console.log(el);
       const button = createElem('div', 'full-screen__btn', createIcon('fullscreen'));
       el.append(button);
     });
