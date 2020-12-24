@@ -1,6 +1,9 @@
 # Changelog
 <https://github.com/VadimAlexandrovich>
 
+
+## 2020-12-24
+- feat: add buttons for fullscreen mode (1h)
 ## 2020-12-23
 - feat: header layout (3h)
 - feat: footer layout (2h)
