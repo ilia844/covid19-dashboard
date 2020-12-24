@@ -70,7 +70,7 @@ export default {
 <div class="button-container button-container__cases">
   <div class="button-container__wrapper">
     <button class="btn btn-prev">prev</button>
-    <div class="display-current-indicator">Cases</div>
+    <div class="display-current-indicator">сases</div>
     <button class="btn btn-next">next</button>
   </div>
 </div>

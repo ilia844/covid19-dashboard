@@ -1,5 +1,6 @@
 import createElem from './utils/createElement';
 // import createMaterialIcon from './utils/createIcon';
+import translatePer100k from './utils/translatePer100k';
 
 export default class CountriesList {
   constructor(data) {
@@ -10,6 +11,7 @@ export default class CountriesList {
     listContainer: null,
     listTitleInfo: null,
     listContent: null,
+    listArray: [],
   }
 
   listContentSet = {
@@ -83,12 +85,15 @@ export default class CountriesList {
 
     listItem.append(listItemFlag, listItemCountry, listItemValue);
     listItemFragment.append(listItem);
+    this.listElements.listArray.push(listItem);
     return listItemFragment;
   }
 
   getListTitleInfo = (mode) => this.listContentSet[mode];
 
   countriesContentRender = (mode, relative) => {
+    // const listContent = document.querySelector('.list__content');
+    // clearParentContainer(listContent);
     if (relative) {
       this.sortData(mode, relative);
       this.listElements.listTitleInfo.innerHTML = `${this.getListTitleInfo(mode)} / 100K`;
@@ -102,5 +107,20 @@ export default class CountriesList {
         this.listElements.listContent.append(this.createListItem(item, mode));
       });
     }
+  }
+
+  countriesContentChange = (indicator, isPer100k) => {
+    this.listElements.listArray.forEach((listElement) => {
+      const countryItem = listElement.childNodes[1].innerHTML;
+      // console.log(countryItem);
+      const dataElement = this.data.find((elem) => elem.country === countryItem);
+      let indicatorCount = dataElement[indicator];
+      if (isPer100k) {
+        indicatorCount = translatePer100k(indicatorCount, dataElement.population);
+        listElement.lastChild.innerHTML = indicatorCount;
+      } else {
+        listElement.lastChild.innerHTML = indicatorCount;
+      }
+    });
   }
 }

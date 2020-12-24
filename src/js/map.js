@@ -81,18 +81,18 @@ export default class Map {
     });
   }
 
-  markerResize = (indicator, isPerOneHundredThousands) => {
+  markerResize = (indicator, isPer100k) => {
     let isLegendRendered = false;
     for (let i = 0; i < this.markers.length; i += 1) {
       const currentIndicatorCount = this.data[i][indicator];
       const currentMarker = this.markers[i];
-      if ((indicator === 'cases' || indicator === 'deaths' || indicator === 'recovered') && !isPerOneHundredThousands) {
+      if ((indicator === 'cases' || indicator === 'deaths' || indicator === 'recovered') && !isPer100k) {
         this.markerSizeControl(currentMarker, currentIndicatorCount, 'big');
         if (!isLegendRendered) {
           this.renderLegend('big');
           isLegendRendered = true;
         }
-      } else if ((indicator === 'todayCases' || indicator === 'todayDeaths' || indicator === 'todayRecovered') && isPerOneHundredThousands) {
+      } else if ((indicator === 'todayCases' || indicator === 'todayDeaths' || indicator === 'todayRecovered') && isPer100k) {
         this.markerSizeControl(currentMarker, currentIndicatorCount, 'small');
         if (!isLegendRendered) {
           this.renderLegend('small');

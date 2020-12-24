@@ -1,28 +1,61 @@
 // import pageLayout from './nls/pageLayoutElements';
 import createElem from './utils/createElement';
 import clearParentContainer from './utils/clearParentContainer';
+import translatePer100k from './utils/translatePer100k';
 
 export default class Table {
-  createTableLayout = (data) => {
+  createTableLayout = (data, isPer100k, isToday) => {
     const tableContainer = document.querySelector('.table');
     clearParentContainer(tableContainer);
-    // tableContainer.insertAdjacentHTML('afterbegin', pageLayout.tableElements);
     // const table = document.querySelector('.table');
     const fragment = document.createDocumentFragment();
     data.forEach((dataElement) => {
       const tr = createElem('tr');
-      tr.insertAdjacentHTML('afterbegin', `<td>${dataElement.country}</td><td>${dataElement.cases}</td><td>${dataElement.deaths}</td><td>${dataElement.recovered}</td>`);
+      let elemCases = dataElement.cases;
+      let elemDeaths = dataElement.deaths;
+      let elemRecovered = dataElement.recovered;
+      if (isToday) {
+        elemCases = dataElement.todayCases;
+        elemDeaths = dataElement.todayDeaths;
+        elemRecovered = dataElement.todayRecovered;
+      }
+      // console.log(elemCases, elemDeaths, elemRecovered)
+      if (isPer100k) {
+        const casePer100k = translatePer100k(elemCases, dataElement.population);
+        const deathsPer100k = translatePer100k(elemDeaths, dataElement.population);
+        const recoveredPer100k = translatePer100k(elemRecovered, dataElement.population);
+        tr.insertAdjacentHTML('afterbegin', `<td>${dataElement.country}</td><td>${casePer100k}</td><td>${deathsPer100k}</td><td>${recoveredPer100k}</td>`);
+      } else {
+        tr.insertAdjacentHTML('afterbegin', `<td>${dataElement.country}</td><td>${elemCases}</td><td>${elemDeaths}</td><td>${elemRecovered}</td>`);
+      }
       fragment.appendChild(tr);
     });
     tableContainer.append(fragment);
   }
 
-  createTableOneCountry = (data, currentCountry) => {
+  createTableOneCountry = (data, currentCountry, isPer100k, isToday) => {
+    // console.log(data, currentCountry, isPer100k);
     const tableContainer = document.querySelector('.table');
-    const dataElem = data.find((el) => el.country === currentCountry);
+    const dataElement = data.find((el) => el.country === currentCountry);
     clearParentContainer(tableContainer);
     const tr = createElem('tr');
-    tr.insertAdjacentHTML('afterbegin', `<td>${currentCountry}</td><td>${dataElem.cases}</td><td>${dataElem.deaths}</td><td>${dataElem.recovered}</td>`);
+    let elemCases = dataElement.cases;
+    let elemDeaths = dataElement.deaths;
+    let elemRecovered = dataElement.recovered;
+    if (isToday) {
+      elemCases = dataElement.todayCases;
+      elemDeaths = dataElement.todayDeaths;
+      elemRecovered = dataElement.todayRecovered;
+      // console.log(elemCases, elemDeaths, elemRecovered)
+    }
+    if (isPer100k) {
+      const casePer100k = translatePer100k(elemCases, dataElement.population);
+      const deathsPer100k = translatePer100k(elemDeaths, dataElement.population);
+      const recoveredPer100k = translatePer100k(elemRecovered, dataElement.population);
+      tr.insertAdjacentHTML('afterbegin', `<td>${dataElement.country}</td><td>${casePer100k}</td><td>${deathsPer100k}</td><td>${recoveredPer100k}</td>`);
+    } else {
+      tr.insertAdjacentHTML('afterbegin', `<td>${dataElement.country}</td><td>${elemCases}</td><td>${elemDeaths}</td><td>${elemRecovered}</td>`);
+    }
     tableContainer.append(tr);
   }
 }

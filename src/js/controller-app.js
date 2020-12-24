@@ -1,6 +1,5 @@
 import CreatePageLayout from './createPageLayout';
 import CountriesList from './countriesList';
-// import clearParentContainer from './utils/clearParentContainer';
 import Data from './data';
 import CreateMap from './map';
 import Keyboard from './keyboard';
@@ -8,6 +7,8 @@ import Search from './search';
 import mapCountryIdentify from './utils/mapCountryIdentificator';
 import Table from './table';
 import ControlPanel from './controlPanel';
+import changeIndicator from './utils/changeIndicator';
+import totalToToday from './utils/totalToToday';
 
 export default class ControllerApp {
   constructor() {
@@ -27,10 +28,10 @@ export default class ControllerApp {
   dataObj = null;
 
   currentState = {
-    indicator: 'recovered',
+    indicator: 'cases',
     isToday: false,
     isPer100k: false,
-    country: 'Tanzania',
+    country: null,
   }
 
   runModules = () => {
@@ -45,18 +46,14 @@ export default class ControllerApp {
     this.runModules();
     this.modules.pageCreator.renderPageLayout();
     this.modules.countriesList.countriesWrapperRender();
-    this.modules.countriesList.countriesContentRender('recovered', true);
+    this.modules.countriesList.countriesContentRender(this.currentState.indicator, this.currentState.isPer100k);
     this.modules.search.createSearchFiled();
     this.table.createTableLayout(this.dataObj);
     this.mapCreator.createMap(this.dataObj);
     this.mapCreator.createLegendIcon();
     this.mapCreator.renderLegend();
     this.controlPanel.createAllControlPanels();
-
     this.mapEventHandler();
-    // this.mapChooseCountry();
-    // this.mapRenderNewMarkers();
-    // this.mapCreator.mapControllerCreate();
     this.modules.keyboard.init();
     this.globalEventHandler();
   }
@@ -67,15 +64,12 @@ export default class ControllerApp {
     const popup = document.querySelector('.mapboxgl-popup');
     const legendIcon = document.querySelector('.map-legend-icon');
     const legend = document.querySelector('.map-legend');
-    const {
-      indicator, isToday, isPer100k, country,
-    } = this.currentState;
 
     map.addEventListener('mousemove', (e) => {
       if (Array.prototype.indexOf.call(markers, e.target) !== -1) {
         const targetCodeCountry = e.target.dataset.code;
-        const paramsPopup = mapCountryIdentify(this.dataObj, targetCodeCountry, indicator);
-        this.mapCreator.renderPopup(...paramsPopup); // ('country', 'indicator', 'indicatorCount');
+        const paramsPopup = mapCountryIdentify(this.dataObj, targetCodeCountry, this.currentState.indicator, this.currentState.isPer100k);
+        this.mapCreator.renderPopup(...paramsPopup);
         popup.classList.add('active');
       } else {
         popup.classList.remove('active');
@@ -91,67 +85,88 @@ export default class ControllerApp {
     });
   }
 
-  // Map Tests
-  // mapChooseCountry() {
-  //   const rightButton = document.querySelector('.btn-next');
-  //   rightButton.addEventListener('click', () => {
-  //     const { country } = this.currentState;
-  //     this.mapCreator.controlMap(country);
-  //   });
-  // }
-
   globalEventHandler = () => {
-    const btnGlobal = document.querySelector('.btn-global');
+    const searchInput = document.querySelector('.search__input');
+    const btnGlobal = document.querySelectorAll('.btn-global');
+    const togglePer100k = document.querySelectorAll('.toggle__per100k');
+    const toggleToday = document.querySelectorAll('.toggle__today-all');
+    const btnNext = document.querySelectorAll('.btn-next');
+    const btnPrev = document.querySelectorAll('.btn-prev');
     const listItems = document.querySelectorAll('.list__item__country');
     const markers = document.querySelectorAll('.marker');
-    let currentCountry = this.currentState.country;
-    let currentIndicator = this.currentState.indicator;
+    const display = document.querySelectorAll('.display-current-indicator');
+    const currentIndicator = this.currentState.indicator;
     window.addEventListener('click', (e) => {
       if (Array.prototype.indexOf.call(listItems, e.target) !== -1) {
-        // console.log(e.target);
         const countryTarget = e.target.innerText;
         this.mapCreator.mapFlyToCountry(countryTarget);
         this.table.createTableOneCountry(this.dataObj, countryTarget);
-        currentCountry = countryTarget;
+        this.currentState.country = countryTarget;
+        searchInput.value = '';
       }
       if (Array.prototype.indexOf.call(markers, e.target) !== -1) {
-        // console.log(e.target);
         const targetCodeCountry = e.target.dataset.code;
         const paramsPopup = mapCountryIdentify(this.dataObj, targetCodeCountry, currentIndicator);
         const countryTarget = paramsPopup[0];
         this.mapCreator.mapFlyToCountry(countryTarget);
         this.table.createTableOneCountry(this.dataObj, countryTarget);
-        currentCountry = countryTarget;
+        this.currentState.country = countryTarget;
+        searchInput.value = '';
       }
-      if (e.target === btnGlobal) {
+      if (Array.prototype.indexOf.call(btnGlobal, e.target) !== -1) {
         this.table.createTableLayout(this.dataObj);
         this.mapCreator.mapFlyOut();
+        searchInput.value = '';
+        this.currentState.country = null;
+      }
+      if (Array.prototype.indexOf.call(togglePer100k, e.target) !== -1) {
+        this.currentState.isPer100k = !this.currentState.isPer100k;
+        togglePer100k.forEach((el) => el.classList.toggle('toggle-active'));
+        if (!this.currentState.country) {
+          this.table.createTableLayout(this.dataObj, this.currentState.isPer100k);
+        } else {
+          this.table.createTableOneCountry(this.dataObj, this.currentState.country, this.currentState.isPer100k);
+        }
+        this.modules.countriesList.countriesContentChange(this.currentState.indicator, this.currentState.isPer100k);
+      }
+      this.mapCreator.markerResize(this.currentState.indicator, this.currentState.isPer100k);
+
+      if (Array.prototype.indexOf.call(btnNext, e.target) !== -1) {
+        const nextInd = changeIndicator(this.currentState.indicator, 'next', this.currentState.isToday);
+        this.modules.countriesList.countriesContentChange(nextInd, this.currentState.isPer100k);
+        this.currentState.indicator = nextInd;
+        this.mapCreator.markerResize(this.currentState.indicator, this.currentState.isPer100k);
+        display.forEach((el) => { el.innerText = this.currentState.indicator; });
+      }
+      if (Array.prototype.indexOf.call(btnPrev, e.target) !== -1) {
+        const prevInd = changeIndicator(this.currentState.indicator, 'prev', this.currentState.isToday);
+        this.modules.countriesList.countriesContentChange(prevInd, this.currentState.isPer100k);
+        this.currentState.indicator = prevInd;
+        this.mapCreator.markerResize(this.currentState.indicator, this.currentState.isPer100k);
+        display.forEach((el) => { el.innerText = this.currentState.indicator; });
+      }
+
+      if (Array.prototype.indexOf.call(toggleToday, e.target) !== -1) {
+        this.currentState.isToday = !this.currentState.isToday;
+        toggleToday.forEach((el) => el.classList.toggle('toggle-active'));
+        this.currentState.indicator = totalToToday(this.currentState.isToday, this.currentState.indicator);
+        this.modules.countriesList.countriesContentChange(this.currentState.indicator, this.currentState.isPer100k);
+        this.mapCreator.markerResize(this.currentState.indicator, this.currentState.isPer100k);
+        if (!this.currentState.country) {
+          this.table.createTableLayout(this.dataObj, this.currentState.isPer100k, this.currentState.isToday);
+        } else {
+          this.table.createTableOneCountry(this.dataObj, this.currentState.country, this.currentState.isPer100k, this.currentState.isToday);
+        }
+      }
+    });
+
+    searchInput.addEventListener('change', () => {
+      if (this.dataObj.find((dataElem) => dataElem.country === searchInput.value)) {
+        const countryTarget = searchInput.value;
+        this.mapCreator.mapFlyToCountry(countryTarget);
+        this.table.createTableOneCountry(this.dataObj, countryTarget);
+        this.currentState.country = countryTarget;
       }
     });
   }
-
-  // mapRenderNewMarkers() {
-  //   const leftButton = document.querySelector('.list__left-button');
-  //   leftButton.addEventListener('click', () => {
-  //     this.mapCreator.markerResize('recovered', true);
-  //   });
-  // }
-
-  // indicators = {
-  //   cases: this.dataObj.cases,
-  //   deaths: this.dataObj.deaths,
-  //   recovered: this.dataObj.recovered,
-  //   todayCases: this.dataObj.todayCases,
-  //   todayDeaths: this.dataObj.todayDeaths,
-  //   todayRecovered: this.dataObj.todayRecovered,
-  //   casesPerOneHundredThousands: this.transInPerOneHundredThousands('cases'),
-  //   deathsPerOneHundredThousands: this.transInPerOneHundredThousands('deaths'),
-  //   recoveredPerOneHundredThousands: this.transInPerOneHundredThousands('recovered'),
-  //   todayCasesPerOneHundredThousands: this.transInPerOneHundredThousands('todayCases'),
-  //   todayDeathsPerOneHundredThousands: this.transInPerOneHundredThousands('todayDeaths'),
-  //   todayRecoveredPerOneHundredThousands: this.transInPerOneHundredThousands('todayRecovered'),
-  //   transInPerOneHundredThousands(prop) {
-  //     return Math.ceil((this.dataObj[prop] / this.dataObj.population) * 100000);
-  //   },
-  // }
 }
