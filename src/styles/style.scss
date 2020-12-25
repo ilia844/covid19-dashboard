@@ -84,13 +84,18 @@ body {
       border-right: solid #6b6b6b 1px;
       border-bottom: solid #000 3px;
       transition: 0.3s all ease;
+      z-index: 10;
+
       .full-screen__btn {
         position: absolute;
-        left: 0;
-        top: 3%;
+        width: 20px;
+        height: 20px;
+        left: 10px;
+        top: 8px;
         font-size: 20px;
+        background-image: url('../assets/images/fullScreen.svg');
         color: white;
-        z-index: 20;
+        z-index: 9;
         transition: all 0.3 ease-in;
         cursor: pointer;
         &:hover {
@@ -101,8 +106,12 @@ body {
       }
     }
     .container_active {
-      position: absolute;
-      width: 100%;
+      position: fixed;
+      top: 10px;
+      bottom: 5px;
+      left: 5px;
+      right: 5px;
+      z-index: 20;
       transition: 0.3s all ease;
     }
 
@@ -448,12 +457,6 @@ body {
       z-index: 1;
       min-width: 150px;
       background-color: #c0c0c0;
-
-      &-content {
-      }
-
-      &-close-button {
-      }
     }
 
     .mapboxgl-ctrl-attrib.mapboxgl-compact {

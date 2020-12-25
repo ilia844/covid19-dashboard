@@ -1,6 +1,6 @@
 import addZero from './addZero';
 
-export default function setCurrentData() {
+export default function setCurrentDate() {
   const currentDate = new Date();
 
   const day = addZero(currentDate.getDate());

@@ -37,6 +37,7 @@ export default class ControllerApp {
     isToday: false,
     isPer100k: false,
     country: null,
+    isFullScreen: null,
   }
 
   controlElements = {
@@ -49,6 +50,7 @@ export default class ControllerApp {
     listItems: null,
     markers: null,
     display: null,
+    fullScreenBtns: null,
   }
 
   mapElements = {
@@ -87,6 +89,7 @@ export default class ControllerApp {
     this.chartController.createChart();
     this.chartController.renderChart('all', false, this.state.indicator);
     this.displayWorldGlobalCases();
+    this.listenFullScreenButton();
   }
 
   listenMousePopup = () => {
@@ -127,6 +130,7 @@ export default class ControllerApp {
     this.controlElements.listItems = document.querySelectorAll('.list__item__country');
     this.controlElements.markers = document.querySelectorAll('.marker');
     this.controlElements.display = document.querySelectorAll('.display-current-indicator');
+    this.controlElements.fullScreenBtns = document.querySelectorAll('.full-screen__btn');
   }
 
   initMapAndListElements = () => {
@@ -202,6 +206,21 @@ export default class ControllerApp {
       this.chartController
         .renderChart(this.state.country, this.state.isPer100k, this.state.indicator);
     }
+  }
+
+  activateFullScreen = (event) => {
+    this.state.isFullScreen = !this.state.isFullScreen;
+    if (this.state.isFullScreen) {
+      event.target.parentElement.classList.remove('container_active');
+    } else {
+      event.target.parentElement.classList.add('container_active');
+    }
+  }
+
+  listenFullScreenButton = () => {
+    this.controlElements.fullScreenBtns.forEach((button) => {
+      button.addEventListener('click', this.activateFullScreen);
+    });
   }
 
   listenControlButtons = () => {

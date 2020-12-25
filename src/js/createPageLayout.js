@@ -1,11 +1,6 @@
 import createElem from './utils/createElement';
 import elements from './nls/pageLayoutElements';
-<<<<<<< HEAD
-import setCurrentData from './utils/setCurrentDate';
-import createIcon from './utils/createIcon';
-=======
 import setCurrentDate from './utils/setCurrentDate';
->>>>>>> 35d82a7... refact: rewrite controller, fix bugs
 
 export default class CreatePageLayout {
   renderPageLayout = () => {
@@ -32,7 +27,7 @@ export default class CreatePageLayout {
 
     const containers = document.querySelectorAll('.container');
     containers.forEach((el) => {
-      const button = createElem('div', 'full-screen__btn', createIcon('fullscreen'));
+      const button = createElem('div', 'full-screen__btn');
       el.append(button);
     });
   }
