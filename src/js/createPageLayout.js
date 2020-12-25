@@ -1,7 +1,6 @@
 import createElem from './utils/createElement';
 import elements from './nls/pageLayoutElements';
-import setCurrentData from './utils/setCurrentDate';
-import createIcon from './utils/createIcon';
+import setCurrentDate from './utils/setCurrentDate';
 
 export default class CreatePageLayout {
   renderPageLayout = () => {
@@ -12,7 +11,9 @@ export default class CreatePageLayout {
     const header = createElem('header', 'header');
     const headerContainer = createElem('div', 'header__container', `${elements.headerImg} ${elements.headerTitle} `);
     const currentDate = createElem('div', 'today');
-    currentDate.textContent = setCurrentData();
+    const todayData = createElem('div', '', `${setCurrentDate()}`);
+    const dataProvide = createElem('div', '', 'Data provided for the year');
+    currentDate.append(todayData, dataProvide);
 
     const main = createElem('main', 'main', elements.mainElements);
     const footer = createElem('footer', 'footer');
@@ -26,7 +27,7 @@ export default class CreatePageLayout {
 
     const containers = document.querySelectorAll('.container');
     containers.forEach((el) => {
-      const button = createElem('div', 'full-screen__btn', createIcon('fullscreen'));
+      const button = createElem('div', 'full-screen__btn');
       el.append(button);
     });
   }
