@@ -29,11 +29,12 @@ export default class Map {
       const countryId = dataElement.countryInfo.iso3;
       const { cases } = dataElement;
       const el = this.renderMarker(countryId, cases);
-
       new mapboxgl.Marker(el)
         .setLngLat([dataElement.countryInfo.long, dataElement.countryInfo.lat])
         .addTo(this.map);
     });
+    this.createLegendIcon();
+    this.renderLegend();
   }
 
   createLegendIcon = () => {
@@ -113,10 +114,5 @@ export default class Map {
     const currentMarker = marker.style;
     currentMarker.width = `${size}px`;
     currentMarker.height = `${size}px`;
-  }
-
-  mapControllerCreate = () => {
-    const map = document.getElementById('map');
-    map.insertAdjacentHTML('afterbegin', elements.mapController);
   }
 }
