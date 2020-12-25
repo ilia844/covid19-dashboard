@@ -1,5 +1,4 @@
 import createElem from './utils/createElement';
-// import createMaterialIcon from './utils/createIcon';
 import translatePer100k from './utils/translatePer100k';
 
 export default class CountriesList {
@@ -37,18 +36,11 @@ export default class CountriesList {
     this.listElements.listContainer = document.querySelector('.list');
 
     const listFragment = document.createDocumentFragment();
-
-    // const listTitle = createElem('div', 'list__title');
-    // eslint-disable-next-line max-len
-    // const listLeftButton = createElem('div', 'list__left-button', createMaterialIcon('keyboard_arrow_left'));
-    // eslint-disable-next-line max-len
-    // const listRigthButton = createElem('div', 'list__rigth-button', createMaterialIcon('keyboard_arrow_right'));
     this.listElements.listTitleInfo = createElem('div', 'list__title-info');
-    // listTitle.append(listLeftButton, this.listElements.listTitleInfo, listRigthButton);
 
     this.listElements.listContent = createElem('div', 'list__content');
 
-    listFragment.append(this.listElements.listContent); // listTitle,
+    listFragment.append(this.listElements.listContent);
     this.listElements.listContainer.append(listFragment);
   }
 
@@ -73,7 +65,6 @@ export default class CountriesList {
     const listItem = createElem('div', 'list__item');
 
     const listItemFlag = createElem('img', 'list__item__flag');
-    // listItemFlag.style.backgroundImage = `url('${obj.countryInfo.flag}')`;
     listItemFlag.src = obj.countryInfo.flag;
     const listItemCountry = createElem('div', 'list__item__country', obj.country);
     let listItemValue;
@@ -92,8 +83,6 @@ export default class CountriesList {
   getListTitleInfo = (mode) => this.listContentSet[mode];
 
   countriesContentRender = (mode, relative) => {
-    // const listContent = document.querySelector('.list__content');
-    // clearParentContainer(listContent);
     if (relative) {
       this.sortData(mode, relative);
       this.listElements.listTitleInfo.innerHTML = `${this.getListTitleInfo(mode)} / 100K`;
@@ -112,7 +101,6 @@ export default class CountriesList {
   countriesContentChange = (indicator, isPer100k) => {
     this.listElements.listArray.forEach((element) => {
       const countryItem = element.childNodes[1].innerHTML;
-      // console.log(countryItem);
       const dataElement = this.data.find((elem) => elem.country === countryItem);
       let indicatorCount = dataElement[indicator];
       const listElem = element;

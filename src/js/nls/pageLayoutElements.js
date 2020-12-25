@@ -78,7 +78,7 @@ export default {
   toggleController: `
 <div class="button-container button-container__toggles">
   <div class="button-container__wrapper">
-    <button class="btn btn-toggle toggle__today-all">Today</button>
+    <button class="btn btn-toggle toggle__today">Today</button>
     <button class="btn btn-toggle toggle__per100k">per100k</button>
     <button class="btn btn-global">Global</button>
   </div>

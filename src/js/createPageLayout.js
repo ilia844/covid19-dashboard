@@ -1,7 +1,11 @@
 import createElem from './utils/createElement';
 import elements from './nls/pageLayoutElements';
+<<<<<<< HEAD
 import setCurrentData from './utils/setCurrentDate';
 import createIcon from './utils/createIcon';
+=======
+import setCurrentDate from './utils/setCurrentDate';
+>>>>>>> 35d82a7... refact: rewrite controller, fix bugs
 
 export default class CreatePageLayout {
   renderPageLayout = () => {
@@ -12,7 +16,9 @@ export default class CreatePageLayout {
     const header = createElem('header', 'header');
     const headerContainer = createElem('div', 'header__container', `${elements.headerImg} ${elements.headerTitle} `);
     const currentDate = createElem('div', 'today');
-    currentDate.textContent = setCurrentData();
+    const todayData = createElem('div', '', `${setCurrentDate()}`);
+    const dataProvide = createElem('div', '', 'Data provided for the year');
+    currentDate.append(todayData, dataProvide);
 
     const main = createElem('main', 'main', elements.mainElements);
     const footer = createElem('footer', 'footer');
